@@ -1,0 +1,65 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PRAS - Flux</title><link rel="stylesheet" href="styles.css"></head><body>
+<header><div class="header-inner"><div><h1>제주 태양광·ESS 구매·판매 요금 재무영향 시뮬레이터</h1><div class="subtitle">Pricing & Revenue Analysis Simulator – PV/ESS · 전력량요금 기준</div></div><div class="badge">PRAS - Flux · v0.1</div></div></header>
+<main><div class="layout">
+<aside class="panel controls"><h2>분석 조건</h2>
+  <div class="control-section"><div class="section-title">1. 분석 대상</div>
+    <div class="field"><label>부하 기준연도</label><select id="loadYear"><option value="2025">2025</option></select></div>
+    <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="number" value="10000" min="0" step="100"></div>
+    <div class="field"><label>신규 요금 참여율(%)</label><input id="participationPct" type="number" value="100" min="0" max="100" step="1"></div>
+    <div class="field"><label>부하 배율(%)</label><input id="loadScalePct" type="number" value="100" min="0" step="5"></div>
+  </div>
+  <div class="control-section"><div class="section-title">2. 태양광</div>
+    <div class="field"><label>대표일 PV 발전량(kWh)</label><input id="pvDailyKWh" type="number" value="10.8" min="0" step="0.1"></div>
+    <div class="field"><label>PV 발전량 배율(%)</label><input id="pvScalePct" type="number" value="100" min="0" step="5"></div>
+    <div class="btn-row"><button class="btn" id="applyObservedPv">실측 89호 평균 4.70 적용</button><button class="btn" id="applyFluxPv">Flux 10.8 적용</button></div>
+    <div class="hint">시간대 발전형태는 2025년 주택용 상계거래 89호 발전량에서 추출함.</div>
+  </div>
+  <div class="control-section"><div class="section-title">3. ESS</div>
+    <div class="field"><label>ESS 보유비율(%)</label><input id="essAdoptionPct" type="number" value="100" min="0" max="100" step="5"></div>
+    <div class="field"><label>정격용량(kWh)</label><input id="essCapacityKWh" type="number" value="8" min="0" step="0.5"></div>
+    <div class="field"><label>충·방전 출력(kW)</label><input id="essPowerKW" type="number" value="3" min="0" step="0.5"></div>
+    <div class="field"><label>최소 SOC(%)</label><input id="minSocPct" type="number" value="10" min="0" max="100" step="5"></div>
+    <div class="field"><label>최대 SOC(%)</label><input id="maxSocPct" type="number" value="90" min="0" max="100" step="5"></div>
+    <div class="field"><label>초기 SOC(%)</label><input id="initialSocPct" type="number" value="50" min="0" max="100" step="5"></div>
+    <div class="field"><label>왕복효율(%)</label><input id="roundTripEfficiencyPct" type="number" value="90" min="50" max="100" step="1"></div>
+    <div class="toggle"><span>계통전력 충전 허용</span><label class="switch"><input id="allowGridCharge" type="checkbox" checked><span class="slider"></span></label></div>
+    <div class="toggle"><span>ESS 전력 역송 허용</span><label class="switch"><input id="allowBatteryExport" type="checkbox" checked><span class="slider"></span></label></div>
+    <div class="hint">일별 종말 SOC를 초기 SOC와 동일하게 강제하여 대표일 반복에 따른 에너지 생성·소진 왜곡을 방지함.</div>
+  </div>
+  <div class="control-section"><div class="section-title">4. 계산 정밀도</div>
+    <div class="field"><label>SOC 계산 간격(kWh)</label><select id="socStepKWh"><option value="0.4">0.4 (빠름)</option><option value="0.2" selected>0.2 (기본)</option><option value="0.1">0.1 (정밀)</option></select></div>
+    <button class="btn primary" id="recalc" style="width:100%;margin-top:8px">시뮬레이션 다시 계산</button>
+  </div>
+</aside>
+<section class="content">
+  <div class="kpis">
+    <div class="kpi"><div class="label">순 전력량요금 수입 변화</div><div class="value" id="kpiNet">-</div><div class="sub" id="kpiNetSub">-</div></div>
+    <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div></div>
+    <div class="kpi"><div class="label">고객전력 매입지급액 변화</div><div class="value" id="kpiPayout">-</div><div class="sub" id="kpiPayoutSub">-</div></div>
+    <div class="kpi"><div class="label">참여 고객당 연간 순요금 변화</div><div class="value" id="kpiPerCust">-</div><div class="sub">전력량요금만 반영</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>대표일 전력 흐름</span><span class="chart-sub">고객 1호·ESS 보유비율 가중</span></div><div class="legend" id="energyLegend"></div><div id="energyChart" class="chart"></div></div></div>
+    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>구매·판매단가</span><span class="chart-sub">원/kWh</span></div><div class="legend" id="priceLegend"></div><div id="priceChart" class="chart"></div></div></div>
+  </div>
+
+  <div class="panel tariff-panel">
+    <div class="tariff-head"><div><h2>시간대별 요금 설정</h2><div class="hint">셀 직접 수정 가능 · 24개 값 일괄입력 지원</div></div><div class="btn-row"><button class="btn" id="resetTariff">Flux 초기값</button><button class="btn" id="pasteTariff">24개 값 붙여넣기</button></div></div>
+    <div class="warning" style="margin:12px 16px 0">기준 판매단가는 아직 별도 자료가 없어 신규 판매단가와 동일한 Flux 역송단가를 임시 적용함. 실제 변경 전·후 판매단가 제공 시 이 표만 교체하면 전체 재무영향이 재계산됨.</div>
+    <div class="table-scroll"><table class="tariff-table" id="tariffTable"></table></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel"><h2>재무영향 분해</h2><div class="decomp" id="decomp"></div></div>
+    <div class="panel"><h2>주요 에너지 지표</h2><div class="data-note" id="energyKpis"></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="tabs"><button class="tab active" data-tab="detail">시간대 상세</button><button class="tab" data-tab="assumption">데이터·가정</button></div>
+    <div id="detail" class="tab-content active"><div class="table-scroll"><table class="detail-table" id="detailTable"></table></div></div>
+    <div id="assumption" class="tab-content"><div class="data-note" id="assumptionCards"></div></div>
+  </div>
+</section></div></main>
+<script src="data.js"></script><script src="engine.js"></script><script src="app.js"></script></body></html>
