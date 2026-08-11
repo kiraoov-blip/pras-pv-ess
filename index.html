@@ -81,13 +81,29 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   .behavior-grid{grid-template-columns:1fr}.legend-row{align-items:flex-start}.legend-help{display:none}
 }
 
+/* v0.8: compact detail table, period summary, unit labels */
+.detail-unit-note{padding:7px 10px;background:#f9fafb;border-bottom:1px solid var(--line);font-size:10.5px;color:#667085;line-height:1.35}
+.detail-scrollbox{max-height:360px;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable}
+.detail-scrollbox .detail-table thead th{position:sticky;top:0;z-index:2;background:#f9fafb}
+.detail-table th small{display:block;margin-top:1px;font-size:8px;line-height:1;color:#98a2b3;font-weight:500}
+.period-panel{overflow:hidden}.period-head{padding:11px 14px;border-bottom:1px solid var(--line)}.period-head h2{padding:0;border:0}
+.period-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:11px 14px 14px}
+.period-card{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff;min-width:0}
+.period-card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;background:#f9fafb;border-bottom:1px solid var(--line)}
+.period-card-head b{font-size:12px;color:#344054}.period-card-head span{font-size:9.5px;color:#667085;text-align:right}
+.period-card.low{border-top:3px solid #98a2b3}.period-card.mid{border-top:3px solid #fdb022}.period-card.peak{border-top:3px solid #f04438}
+.period-metric{padding:7px 9px;border-bottom:1px solid #f2f4f7}.period-metric:last-child{border-bottom:0}
+.period-metric>span{display:block;font-size:9.5px;color:#667085;margin-bottom:2px}.period-metric strong{display:block;font-size:11px;color:#344054;font-weight:650;white-space:nowrap}.period-metric em{display:block;margin-top:2px;font-size:10px;font-style:normal;font-weight:650}
+@media(max-width:1180px){.period-summary{grid-template-columns:1fr}.detail-scrollbox{max-height:330px}}
+@media(max-width:760px){.detail-scrollbox{max-height:300px}.period-summary{padding:8px 10px 11px}.period-card-head span{font-size:9px}}
+
 </style></head><body>
 <div id="appRoot"><header><div class="header-inner"><div><h1>제주 태양광·ESS 구매·판매 요금 재무영향 시뮬레이터</h1><div class="subtitle">Pricing & Revenue Analysis Simulator – PV/ESS · 전력량요금 기준</div></div></div></header>
 <main><div class="layout">
 <aside class="panel controls"><h2>분석 조건</h2>
   <div class="control-section"><div class="section-title">1. 분석 대상</div>
     <div class="field"><label>부하 기준연도</label><select id="loadYear"><option value="2025">2025</option></select></div>
-    <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="number" value="10000" min="0" step="100"></div>
+    <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="text" inputmode="numeric" value="10,000" autocomplete="off"></div>
     <div class="field"><label>신규 요금 참여율(%)</label><input id="participationPct" type="number" value="100" min="0" max="100" step="1"></div>
     <div class="field"><label>부하 배율(%)</label><input id="loadScalePct" type="number" value="100" min="0" step="5"></div>
   </div>
@@ -110,10 +126,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
     <div class="toggle"><span>ESS 전력 역송 허용</span><label class="switch"><input id="allowBatteryExport" type="checkbox" checked><span class="slider"></span></label></div>
     <div class="hint">일별 종말 SOC를 초기 SOC와 동일하게 강제하여 대표일 반복에 따른 에너지 생성·소진 왜곡을 방지함.</div>
   </div>
-  <div class="control-section"><div class="section-title">4. 계산 정밀도</div>
-    <div class="field"><label>SOC 계산 간격(kWh)</label><select id="socStepKWh"><option value="0.4">0.4 (빠름)</option><option value="0.2" selected>0.2 (기본)</option><option value="0.1">0.1 (정밀)</option></select></div>
-    <button class="btn primary" id="recalc" style="width:100%;margin-top:8px">시뮬레이션 다시 계산</button>
-  </div>
+  <button class="btn primary" id="recalc" style="width:100%;margin-top:4px">시뮬레이션 다시 계산</button>
 </aside>
 <section class="content">
   <div class="kpis">
@@ -139,6 +152,11 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
     <div class="panel"><h2>주요 에너지 지표</h2><div class="data-note" id="energyKpis"></div></div>
   </div>
 
+  <div class="panel period-panel">
+    <div class="period-head"><div><h2>부하시간대별 사용량·요금 변화</h2><div class="hint">신규 요금제의 경·중·최 시간구분을 기준안에도 동일하게 적용 · 사용량은 한전 구매전력량, 요금은 구매요금에서 역송 판매대금을 차감한 순 전력량요금</div></div></div>
+    <div id="periodSummary" class="period-summary"></div>
+  </div>
+
   <div class="panel behavior-panel">
     <div class="behavior-head"><div><h2>현재 요금신호에 따른 합리적 고객 행동</h2><div class="hint">신규 구매·판매단가와 ESS 최적운전 결과를 함께 해석함. 요금 설정을 바꾸면 아래 내용도 자동 갱신됨.</div></div></div>
     <div id="behaviorSummary" class="behavior-summary"></div>
@@ -148,7 +166,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 
   <div class="panel">
     <div class="tabs"><button class="tab active" data-tab="detail">시간대 상세</button><button class="tab" data-tab="assumption">데이터·가정</button></div>
-    <div id="detail" class="tab-content active"><div class="table-scroll detail-desktop"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive"></div></div>
+    <div id="detail" class="tab-content active"><div class="detail-unit-note">단위: 부하·PV·구매·판매·ESS 충방전 = kWh/호·1시간 · SOC = kWh/호(시간 종료 시점)</div><div class="table-scroll detail-desktop detail-scrollbox"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive detail-scrollbox"></div></div>
     <div id="assumption" class="tab-content"><div class="data-note" id="assumptionCards"></div></div>
   </div>
 </section></div></main>
@@ -423,7 +441,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 (function(){
   const D=window.PRAS_DATA,E=window.PRASEngine;
   const $=id=>document.getElementById(id);
-  const ids=['loadYear','customerCount','participationPct','loadScalePct','pvCapacityKW','pvUtilizationPct','essAdoptionPct','essCapacityKWh','essPowerKW','minSocPct','maxSocPct','initialSocPct','roundTripEfficiencyPct','socStepKWh'];
+  const ids=['loadYear','customerCount','participationPct','loadScalePct','pvCapacityKW','pvUtilizationPct','essAdoptionPct','essCapacityKWh','essPowerKW','minSocPct','maxSocPct','initialSocPct','roundTripEfficiencyPct'];
   let tariffs=JSON.parse(JSON.stringify(D.tariffs));
   const colors={load:'#344054',pv:'#f59e0b',baseImp:'#98a2b3',newImp:'#2f6fde',baseExp:'#a855f7',newExp:'#087a55',soc:'#b54708',baseBuy:'#667085',newBuy:'#2f6fde',baseSell:'#9e77ed',newSell:'#087a55'};
   const hiddenEnergySeries=new Set();
@@ -433,6 +451,8 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   const fmt0=x=>Math.round(x).toLocaleString('ko-KR');
   const fmt1=x=>(Math.round(x*10)/10).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1});
   const fmtMax1=x=>(Math.round(x*10)/10).toLocaleString('ko-KR',{maximumFractionDigits:1});
+  const parseInputNumber=v=>Number(String(v??'').replace(/,/g,'').trim())||0;
+  function formatCustomerCount(){const el=$('customerCount');const n=Math.max(0,Math.round(parseInputNumber(el.value)));el.value=n.toLocaleString('ko-KR');}
   function money(x){const a=Math.abs(x);if(a>=1e8)return `${fmt1(x/1e8)}억 원`;if(a>=1e4)return `${fmt1(x/1e4)}만 원`;return `${fmt1(x)}원`;}
   function signedMoney(x){return `${x>0?'+':''}${money(x)}`}
   function setSign(el,x){el.classList.remove('positive','negative'); if(x>0)el.classList.add('positive'); if(x<0)el.classList.add('negative');}
@@ -448,10 +468,10 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
     return `rgb(${rgb.join(',')})`;
   }
   function cfg(){return {
-    loadYear:$('loadYear').value,customerCount:+$('customerCount').value,participationPct:+$('participationPct').value,loadScalePct:+$('loadScalePct').value,
+    loadYear:$('loadYear').value,customerCount:parseInputNumber($('customerCount').value),participationPct:+$('participationPct').value,loadScalePct:+$('loadScalePct').value,
     pvCapacityKW:+$('pvCapacityKW').value,pvUtilizationPct:+$('pvUtilizationPct').value,essAdoptionPct:+$('essAdoptionPct').value,essCapacityKWh:+$('essCapacityKWh').value,
     essPowerKW:+$('essPowerKW').value,minSocPct:+$('minSocPct').value,maxSocPct:+$('maxSocPct').value,initialSocPct:+$('initialSocPct').value,
-    roundTripEfficiencyPct:+$('roundTripEfficiencyPct').value,socStepKWh:+$('socStepKWh').value,allowGridCharge:$('allowGridCharge').checked,
+    roundTripEfficiencyPct:+$('roundTripEfficiencyPct').value,socStepKWh:0.2,allowGridCharge:$('allowGridCharge').checked,
     allowBatteryExport:$('allowBatteryExport').checked,tariffs
   }}
   const basePeriods=['경','경','경','경','경','경','경','경','중','중','중','중','중','중','중','중','최','최','최','최','최','최','경','경'];
@@ -530,6 +550,29 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   }
   function selectedHours(arr,threshold=0.05){return arr.map((v,i)=>v>threshold?i:-1).filter(i=>i>=0)}
   function avgAt(arr,hours){return hours.length?hours.reduce((s,h)=>s+(arr[h]||0),0)/hours.length:0}
+  function renderPeriodSummary(r){
+    if(!$('periodSummary')) return;
+    const periods=['경','중','최'];
+    const names={경:'경부하',중:'중간부하',최:'최대부하'};
+    const annual=365;
+    const rows=periods.map(period=>{
+      const hours=newPeriods.map((p,i)=>p===period?i:-1).filter(i=>i>=0);
+      const baseUse=hours.reduce((s,h)=>s+r.base.import[h],0)*annual;
+      const newUse=hours.reduce((s,h)=>s+r.new.import[h],0)*annual;
+      const baseFee=hours.reduce((s,h)=>s+r.base.import[h]*tariffs.baseBuy[h]-r.base.export[h]*tariffs.baseSell[h],0)*annual;
+      const newFee=hours.reduce((s,h)=>s+r.new.import[h]*tariffs.newBuy[h]-r.new.export[h]*tariffs.newSell[h],0)*annual;
+      const useDiff=newUse-baseUse, feeDiff=newFee-baseFee;
+      const usePct=Math.abs(baseUse)>1e-9?useDiff/baseUse*100:null;
+      const feePct=Math.abs(baseFee)>1e-9?feeDiff/baseFee*100:null;
+      return {period,name:names[period],hours,baseUse,newUse,useDiff,usePct,baseFee,newFee,feeDiff,feePct};
+    });
+    const pct=v=>v==null?'–':`${v>0?'+':''}${fmt1(v)}%`;
+    $('periodSummary').innerHTML=rows.map(x=>`<div class="period-card ${periodClass(x.period)}">
+      <div class="period-card-head"><b>${x.name}</b><span>${hourRanges(x.hours)}</span></div>
+      <div class="period-metric"><span>한전 구매량</span><strong>${fmt1(x.baseUse)} → ${fmt1(x.newUse)} kWh/호·년</strong><em class="${x.useDiff>0?'positive':x.useDiff<0?'negative':''}">${x.useDiff>0?'+':''}${fmt1(x.useDiff)} kWh (${pct(x.usePct)})</em></div>
+      <div class="period-metric"><span>순 전력량요금</span><strong>${fmt0(x.baseFee)} → ${fmt0(x.newFee)} 원/호·년</strong><em class="${x.feeDiff>0?'positive':x.feeDiff<0?'negative':''}">${x.feeDiff>0?'+':''}${fmt0(x.feeDiff)}원 (${pct(x.feePct)})</em></div>
+    </div>`).join('');
+  }
   function customerBehavior(r,c){
     const buy=tariffs.newBuy,sell=tariffs.newSell;
     const minBuy=Math.min(...buy),maxBuy=Math.max(...buy),minSell=Math.min(...sell),maxSell=Math.max(...sell);
@@ -568,14 +611,14 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
       <div class="behavior-card"><b>④ 실제 계통판매</b><p>${exportText}</p></div>`;
   }
   function detail(res){
-    let h='<thead><tr><th>시간</th><th>부하</th><th>PV</th><th>기준 구매</th><th>신규 구매</th><th>기준 판매</th><th>신규 판매</th><th>신규 ESS 충전</th><th>신규 ESS 방전</th><th>신규 SOC</th></tr></thead><tbody>';
+    let h='<thead><tr><th>시간</th><th>부하<br><small>kWh</small></th><th>PV<br><small>kWh</small></th><th>기준 구매<br><small>kWh</small></th><th>신규 구매<br><small>kWh</small></th><th>기준 판매<br><small>kWh</small></th><th>신규 판매<br><small>kWh</small></th><th>신규 ESS 충전<br><small>kWh</small></th><th>신규 ESS 방전<br><small>kWh</small></th><th>신규 SOC<br><small>kWh</small></th></tr></thead><tbody>';
     for(let i=0;i<24;i++)h+=`<tr><td title="${hourInterval(i)}">${hourStart(i)}</td><td>${fmt1(res.load[i])}</td><td>${fmt1(res.pv[i])}</td><td>${fmt1(res.base.import[i])}</td><td>${fmt1(res.new.import[i])}</td><td>${fmt1(res.base.export[i])}</td><td>${fmt1(res.new.export[i])}</td><td>${fmt1(res.new.charge[i]||0)}</td><td>${fmt1(res.new.discharge[i]||0)}</td><td>${fmt1(res.new.soc[i+1]||0)}</td></tr>`;
     $('detailTable').innerHTML=h+'</tbody>';
 
     const groups=[
-      {title:'부하·PV·기준 구매',cols:[['부하',i=>res.load[i]],['PV',i=>res.pv[i]],['기준 구매',i=>res.base.import[i]]]},
-      {title:'신규 구매·계통 판매',cols:[['신규 구매',i=>res.new.import[i]],['기준 판매',i=>res.base.export[i]],['신규 판매',i=>res.new.export[i]]]},
-      {title:'ESS 운전·SOC',cols:[['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0],['SOC',i=>res.new.soc[i+1]||0]]}
+      {title:'부하·PV·기준 구매 (kWh/호·1시간)',cols:[['부하',i=>res.load[i]],['PV',i=>res.pv[i]],['기준 구매',i=>res.base.import[i]]]},
+      {title:'신규 구매·계통 판매 (kWh/호·1시간)',cols:[['신규 구매',i=>res.new.import[i]],['기준 판매',i=>res.base.export[i]],['신규 판매',i=>res.new.export[i]]]},
+      {title:'ESS 운전·SOC (충방전 kWh/호·1시간 · SOC kWh/호)',cols:[['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0],['SOC',i=>res.new.soc[i+1]||0]]}
     ];
     $('detailResponsive').innerHTML=groups.map(g=>{
       let t=`<table class="detail-mini"><caption>${g.title}</caption><thead><tr><th>시간</th>${g.cols.map(c=>`<th>${c[0]}</th>`).join('')}</tr></thead><tbody>`;
@@ -598,15 +641,20 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
     energyLegend(energySeries);renderEnergyChart();
     const priceSeries=[{name:'기준 구매',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 구매',data:tariffs.newBuy,color:colors.newBuy},{name:'기준 판매',data:tariffs.baseSell,color:colors.baseSell,dash:'5 4'},{name:'신규 판매',data:tariffs.newSell,color:colors.newSell}];
     priceLegend(priceSeries);renderPriceChart();
-    bars(r.decomposition);energyCards(r);customerBehavior(r,c);detail(r);
+    bars(r.decomposition);energyCards(r);renderPeriodSummary(r);customerBehavior(r,c);detail(r);
   }
-  $('recalc').addEventListener('click',run);ids.forEach(id=>$(id).addEventListener('change',run));$('allowGridCharge').addEventListener('change',run);$('allowBatteryExport').addEventListener('change',run);
+  $('recalc').addEventListener('click',run);
+  ids.filter(id=>id!=='customerCount').forEach(id=>$(id).addEventListener('change',run));
+  $('customerCount').addEventListener('focus',e=>{e.target.value=String(parseInputNumber(e.target.value));});
+  $('customerCount').addEventListener('blur',()=>{formatCustomerCount();run();});
+  $('customerCount').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur();}});
+  $('allowGridCharge').addEventListener('change',run);$('allowBatteryExport').addEventListener('change',run);
   $('applyObservedPv').onclick=()=>{const cap=Math.max(0,+$('pvCapacityKW').value||0);if(cap<=0){alert('실측 발전량을 이용률로 환산하려면 태양광 설비용량을 0보다 크게 입력하세요.');return}$('pvUtilizationPct').value=(D.metadata.pvObservedAvgDailyKWh/(cap*24)*100).toFixed(1);run()};
   $('applyFluxPv').onclick=()=>{$('pvUtilizationPct').value='15.0';run()};
   $('resetTariff').onclick=()=>{tariffs=JSON.parse(JSON.stringify(D.tariffs));buildTariff();run()};
   document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});
   let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(window.lastResult)run()},160)});
-  buildTariff();assumptions();run();
+  formatCustomerCount();buildTariff();assumptions();run();
 })();
 
 </script></body></html>
