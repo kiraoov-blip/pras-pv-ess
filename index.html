@@ -447,6 +447,8 @@ body{font-size:15.5px}
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>구매·판매단가</span><span class="chart-sub">원/kWh</span></div><div class="legend-row"><div class="legend interactive" id="priceLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="priceChart" class="chart"></div></div></div>
   </div>
 
+  <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>배터리 SOC 상태</span><span class="chart-sub">kWh/호 · 시간 종료 시점</span></div><div id="socLegend" class="legend soc-legend"></div><div id="socChart" class="chart"></div><div id="socSummary" class="chart-footnote"></div></div></div>
+
   <div class="panel flow-panel">
     <div class="flow-head"><div><h2>대표일 에너지 수지·한전 수전 구조</h2><div class="hint">ESS는 전력을 새로 만드는 설비가 아니라 시간대를 이동시키는 설비임. 한전 총수전이 고객부하로 직접 공급된 양과 ESS 충전에 사용된 양을 분리해 표시함.</div></div></div>
     <div id="gridDependenceSummary" class="flow-summary"></div>
@@ -871,6 +873,41 @@ body{font-size:15.5px}
     }
     svgLineChart('priceChart',visible,{ymin:0,formatY:v=>fmt1(v)});
   }
+  function renderSocChart(r,c){
+    const chart=$('socChart'), legend=$('socLegend'), summary=$('socSummary');
+    if(!chart||!legend||!summary) return;
+    const adoption=Math.max(0,+c.essAdoptionPct||0);
+    const cap=Math.max(0,+c.essCapacityKWh||0);
+    if(adoption<=0 || cap<=0){
+      legend.innerHTML='';
+      chart.innerHTML='<div class="chart-empty">ESS 미적용 상태입니다. ESS 보유비율과 용량을 입력하면 시간대별 SOC를 표시합니다.</div>';
+      summary.textContent='';
+      return;
+    }
+    const data=((r.new&&r.new.soc)||[]).slice(1,25);
+    const minSoc=cap*Math.max(0,+c.minSocPct||0)/100;
+    const maxSoc=cap*Math.max(0,+c.maxSocPct||0)/100;
+    const initSoc=cap*Math.max(0,+c.initialSocPct||0)/100;
+    const obsMin=data.length?Math.min(...data):0, obsMax=data.length?Math.max(...data):0;
+    legend.innerHTML=`<span style="--c:${colors.soc}">신규안 SOC</span><span style="--c:#98a2b3">운전가능 범위</span><span style="--c:#d0d5dd">초기 SOC</span>`;
+    const W=Math.max(chart.clientWidth||650,500),H=280,m={l:46,r:16,t:16,b:34};
+    const ymin=0, ymax=Math.max(cap, maxSoc, obsMax, initSoc, 1);
+    const plotW=W-m.l-m.r;
+    const x=i=>m.l+(i+0.5)*plotW/24, xt=h=>m.l+h*plotW/24, y=v=>m.t+(ymax-v)*(H-m.t-m.b)/(ymax-ymin);
+    let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%">`;
+    const bandTop=y(maxSoc), bandBottom=y(minSoc);
+    s+=`<rect x="${m.l}" y="${bandTop}" width="${plotW}" height="${Math.max(0,bandBottom-bandTop)}" fill="rgba(152,162,179,0.12)" stroke="none"/>`;
+    for(let j=0;j<=4;j++){const v=ymin+(ymax-ymin)*j/4,yy=y(v);s+=`<line x1="${m.l}" y1="${yy}" x2="${W-m.r}" y2="${yy}" stroke="#eaecf0"/><text x="${m.l-7}" y="${yy+4}" text-anchor="end" font-size="10" fill="#667085">${fmt1(v)}</text>`}
+    [0,4,8,12,16,20,24].forEach(h=>s+=`<text x="${xt(h)}" y="${H-10}" text-anchor="${h===0?'start':h===24?'end':'middle'}" font-size="10" fill="#667085">${String(h).padStart(2,'0')}</text>`);
+    const refLines=[{v:minSoc,label:'최소 SOC',dash:'4 4',color:'#98a2b3'},{v:maxSoc,label:'최대 SOC',dash:'4 4',color:'#98a2b3'},{v:initSoc,label:'초기 SOC',dash:'2 4',color:'#d0d5dd'}];
+    refLines.forEach((ref,idx)=>{const yy=y(ref.v);s+=`<line x1="${m.l}" y1="${yy}" x2="${W-m.r}" y2="${yy}" stroke="${ref.color}" stroke-dasharray="${ref.dash}"/>`; if(idx<2) s+=`<text x="${W-m.r-2}" y="${yy-4}" text-anchor="end" font-size="10" fill="#667085">${ref.label}</text>`;});
+    const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+    s+=`<polyline points="${pts}" fill="none" stroke="${colors.soc}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`;
+    data.forEach((v,i)=>{s+=`<circle cx="${x(i)}" cy="${y(v)}" r="2.4" fill="${colors.soc}"/>`;});
+    s+='</svg>';
+    chart.innerHTML=s;
+    summary.textContent=`ESS 정격용량 ${fmt1(cap)}kWh/호 · 운전가능 범위 ${fmt1(minSoc)}~${fmt1(maxSoc)}kWh/호 · 초기 SOC ${fmt1(initSoc)}kWh/호 · 대표일 실제 SOC 범위 ${fmt1(obsMin)}~${fmt1(obsMax)}kWh/호`;
+  }
   function priceLegend(items){
     currentPriceSeries=items;
     $('priceLegend').innerHTML=items.map(i=>`<button type="button" class="legend-item${hiddenPriceSeries.has(i.name)?' off':''}" data-price-series="${i.name}" style="--c:${i.color}" title="클릭하여 표시/숨김">${i.name}</button>`).join('');
@@ -1180,6 +1217,7 @@ body{font-size:15.5px}
     energyLegend(energySeries);renderEnergyChart();
     const priceSeries=[{name:'기준 구매',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 구매',data:tariffs.newBuy,color:colors.newBuy},{name:'기준 판매',data:tariffs.baseSell,color:colors.baseSell,dash:'5 4'},{name:'신규 판매',data:tariffs.newSell,color:colors.newSell}];
     priceLegend(priceSeries);renderPriceChart();
+    renderSocChart(r,c);
     renderEnergyBalance(r);bars(r.decomposition);energyCards(r);renderPeriodSummary(r);customerBehavior(r,c);renderHourlyChoice(r,c);detail(r);
   }
   $('recalc').addEventListener('click',run);
