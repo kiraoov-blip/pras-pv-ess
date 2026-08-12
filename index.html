@@ -296,6 +296,56 @@ body{font-size:15.5px}
   .behavior-grid{grid-template-columns:1fr}
 }
 
+/* v1.1 readability refinement */
+/* 24-hour tariff editor: modest increase only, preserving all 24 columns. */
+.tariff-table,.tariff-table th,.tariff-table td,.tariff-table input{font-size:12px}
+.tariff-table th,.tariff-table td{height:37px;padding:4px 2px}
+.tariff-table input{font-size:12px;padding:3px 2px;line-height:1.15}
+.tariff-table th:first-child,.tariff-table td:first-child{width:126px}
+.period-tag{font-size:8.8px;line-height:1.05}
+.tariff-hour label{font-size:9.6px}
+.tariff-hour input{font-size:11.4px;padding:4px 1px}
+.tariff-hour .period-tag{font-size:8.6px}
+
+/* Load-period summary: make labels, values and deltas easier to scan. */
+.period-head .hint{font-size:13.8px;line-height:1.5}
+.period-card-head{padding:12px 14px}
+.period-card-head b{font-size:15.5px}
+.period-card-head span{font-size:12.4px}
+.period-metric{padding:12px 14px}
+.period-metric>span{font-size:12.5px;margin-bottom:5px}
+.period-metric strong{font-size:15.2px;line-height:1.3}
+.period-metric em{font-size:13.4px;margin-top:5px;line-height:1.3}
+
+/* Rational-customer behavior: slightly larger explanatory copy. */
+.behavior-head .hint{font-size:13.8px;line-height:1.5}
+.behavior-summary{font-size:15px;line-height:1.6;padding:13px 15px}
+.behavior-card{padding:14px 15px}
+.behavior-card b{font-size:14.5px}
+.behavior-card p{font-size:14px;line-height:1.6;margin-top:7px}
+.behavior-foot{font-size:12.7px;line-height:1.55}
+
+/* Hourly detail: increase table typography without materially increasing page height. */
+.detail-unit-note{font-size:12.7px;line-height:1.45;padding:10px 13px}
+.detail-table{font-size:12px}
+.detail-table th,.detail-table td{font-size:12px;padding:3px 6px;height:23px;line-height:1.2}
+.detail-table th:first-child,.detail-table td:first-child{width:68px;padding-left:9px}
+.detail-mini{font-size:11px}
+.detail-mini th,.detail-mini td{font:500 11px/1.15 inherit;height:21px;padding:3px 4px}
+.detail-mini th:first-child,.detail-mini td:first-child{width:46px}
+.detail-mini caption{font-size:11.7px;padding-bottom:5px}
+
+@media(max-width:1180px){
+  .tariff-hour input{font-size:11.2px}
+  .period-card-head b{font-size:15px}.period-card-head span{font-size:12px}
+  .period-metric>span{font-size:12.2px}.period-metric strong{font-size:14.8px}.period-metric em{font-size:13px}
+  .behavior-summary{font-size:14.6px}.behavior-card b{font-size:14.2px}.behavior-card p{font-size:13.7px}
+}
+@media(max-width:560px){
+  .tariff-hour label{font-size:9.2px}.tariff-hour input{font-size:10.8px}.tariff-hour .period-tag{font-size:8.2px}
+  .detail-mini th,.detail-mini td{font-size:10.6px;height:20px;padding:2px 3px}
+}
+
 </style></head><body>
 <div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
@@ -440,7 +490,8 @@ body{font-size:15.5px}
   };
 })(typeof window !== 'undefined' ? window : globalThis);
 
-</script><script>
+</script>
+<script>
 (function(root,factory){
   const api=factory();
   if(typeof module==='object' && module.exports) module.exports=api;
@@ -646,7 +697,8 @@ body{font-size:15.5px}
   return {simulate,optimizeDay,noBatteryDay,blend,clamp,sum};
 });
 
-</script><script>
+</script>
+<script>
 (function(){
   const D=window.PRAS_DATA,E=window.PRASEngine;
   const $=id=>document.getElementById(id);
