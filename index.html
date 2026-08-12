@@ -97,8 +97,82 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 @media(max-width:1180px){.period-summary{grid-template-columns:1fr}.detail-scrollbox{max-height:330px}}
 @media(max-width:760px){.detail-scrollbox{max-height:300px}.period-summary{padding:8px 10px 11px}.period-card-head span{font-size:9px}}
 
+/* v0.9: readability enhancement outside the dense tariff-setting interface */
+body{font-size:14.5px}
+h1{font-size:25px;line-height:1.25;margin-bottom:6px}
+.subtitle{font-size:14px;line-height:1.35;opacity:.88}
+.panel h2{font-size:17px}
+.section-title{font-size:13.5px}
+.field label,.toggle>span{font-size:13.5px}
+.field input,.field select{font-size:13.5px}
+.hint{font-size:12.5px}
+.warning{font-size:12.5px}
+.btn{font-size:12.5px}
+
+.kpi .label{font-size:13px}
+.kpi .value{font-size:21px}
+.kpi .sub{font-size:12.5px;line-height:1.35}
+.kpi-help{font-size:11.5px;line-height:1.45}
+
+.chart-title{font-size:14px}
+.chart-sub{font-size:12px}
+.legend{font-size:12px}
+.legend-item{font-size:12px}
+.legend-help{font-size:10.5px}
+
+.decomp{padding:11px 15px 14px}
+.bar-row{grid-template-columns:145px 1fr 115px;margin:10px 0}
+.bar-label{font-size:13.5px}
+.bar-value{font-size:13.5px}
+.bar-track{height:13px}
+
+.data-note{padding:13px 15px;gap:10px}
+.note-card{padding:10px 11px}
+.note-card b{font-size:13.5px}
+.note-card p{font-size:12.5px;line-height:1.5}
+
+.period-head{padding:13px 15px}
+.period-summary{gap:11px;padding:13px 15px 16px}
+.period-card-head{padding:9px 11px}
+.period-card-head b{font-size:13.5px}
+.period-card-head span{font-size:10.5px}
+.period-metric{padding:9px 11px}
+.period-metric>span{font-size:10.5px;margin-bottom:3px}
+.period-metric strong{font-size:12.5px}
+.period-metric em{font-size:11.5px;margin-top:3px}
+
+.behavior-head{padding:13px 15px 9px}
+.behavior-summary{margin:11px 15px 0;padding:11px 12px;font-size:13px;line-height:1.5}
+.behavior-grid{gap:10px;padding:12px 15px}
+.behavior-card{padding:11px 12px}
+.behavior-card b{font-size:12.5px}
+.behavior-card p{font-size:12px;line-height:1.5}
+.behavior-foot{padding:0 15px 13px;font-size:11.5px;line-height:1.45}
+
+.detail-unit-note{font-size:11.5px;padding:8px 11px}
+.tabs .tab{font-size:13px}
+
+/* Keep the dense tariff editor compact by design. */
+.tariff-table,.tariff-table th,.tariff-table td,.tariff-table input{font-size:11px}
+.tariff-hour label{font-size:9px}
+.tariff-hour input{font-size:10.5px}
+.tariff-hour .period-tag,.period-tag{font-size:8px}
+
+@media(max-width:1180px){
+  h1{font-size:22px}.subtitle{font-size:13px}
+  .panel h2{font-size:16.5px}
+  .kpi .label{font-size:12.5px}.kpi .value{font-size:20px}.kpi .sub{font-size:12px}
+  .bar-label,.bar-value{font-size:13px}
+  .note-card b{font-size:13px}.note-card p{font-size:12px}
+  .period-card-head b{font-size:13px}.period-metric strong{font-size:12px}
+}
+@media(max-width:560px){
+  h1{font-size:19px}.subtitle{font-size:12px}
+  .bar-row{grid-template-columns:112px 1fr 90px}
+}
+
 </style></head><body>
-<div id="appRoot"><header><div class="header-inner"><div><h1>제주 태양광·ESS 구매·판매 요금 재무영향 시뮬레이터</h1><div class="subtitle">Pricing & Revenue Analysis Simulator – PV/ESS · 전력량요금 기준</div></div></div></header>
+<div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
 <aside class="panel controls"><h2>분석 조건</h2>
   <div class="control-section"><div class="section-title">1. 분석 대상</div>
@@ -231,7 +305,8 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   };
 })(typeof window !== 'undefined' ? window : globalThis);
 
-</script><script>
+</script>
+<script>
 (function(root,factory){
   const api=factory();
   if(typeof module==='object' && module.exports) module.exports=api;
@@ -437,7 +512,8 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   return {simulate,optimizeDay,noBatteryDay,blend,clamp,sum};
 });
 
-</script><script>
+</script>
+<script>
 (function(){
   const D=window.PRAS_DATA,E=window.PRASEngine;
   const $=id=>document.getElementById(id);
