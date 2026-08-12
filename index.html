@@ -25,7 +25,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 .heat-legend{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:10px;color:#667085}.heat-legend i{display:block;width:120px;height:8px;border-radius:999px;background:linear-gradient(90deg,#f2f4f7 0%,#fef0c7 50%,#fecdca 100%);border:1px solid #eaecf0}.heat-legend em{font-style:normal;color:#98a2b3;margin-left:2px}
 .btn{border:1px solid #cbd5e1;background:#fff;border-radius:7px;padding:6px 9px;cursor:pointer;color:#344054;font-weight:600;font-size:12px}.btn:hover{background:#f8fafc}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.hint{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:6px}.warning{background:#fffaeb;border:1px solid #fedf89;color:#7a2e0e;padding:8px 9px;border-radius:8px;font-size:11.5px;line-height:1.4;margin-top:8px}
 .content{display:flex;flex-direction:column;gap:12px;min-width:0}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.kpi{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:0}.kpi .label{font-size:12px;color:var(--muted);margin-bottom:6px}.kpi .value{font-size:19px;font-weight:760;letter-spacing:-.3px}.kpi .sub{font-size:11.5px;color:var(--muted);margin-top:4px}.positive{color:var(--good)!important}.negative{color:var(--bad)!important}
-.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;min-width:0}.chart-wrap{padding:10px 12px 12px;min-width:0}.chart-title{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:6px}.chart-sub{font-size:11px;color:var(--muted);font-weight:400}.chart{width:100%;height:250px;border-top:1px solid #f2f4f7}.legend-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:25px}.legend{display:flex;gap:6px 9px;flex-wrap:wrap;font-size:11px;color:#475467;margin:5px 0}.legend span::before,.legend-item::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}.legend-item{appearance:none;border:0;background:transparent;padding:2px 3px;margin:0;cursor:pointer;font:500 11px/1.2 inherit;color:#475467;border-radius:4px}.legend-item:hover{background:#f2f4f7}.legend-item.off{color:#98a2b3;text-decoration:line-through;opacity:.55}.legend-item.off::before{background:#d0d5dd}.legend-help{font-size:9.5px;color:#98a2b3;white-space:nowrap}.chart-empty{height:100%;display:flex;align-items:center;justify-content:center;color:#98a2b3;font-size:11.5px}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;min-width:0}.grid3{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:12px;min-width:0}.chart-wrap{padding:10px 12px 12px;min-width:0}.chart-title{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:6px}.chart-sub{font-size:11px;color:var(--muted);font-weight:400}.chart{width:100%;height:250px;border-top:1px solid #f2f4f7}.legend-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:25px}.legend{display:flex;gap:6px 9px;flex-wrap:wrap;font-size:11px;color:#475467;margin:5px 0}.legend span::before,.legend-item::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}.legend-item{appearance:none;border:0;background:transparent;padding:2px 3px;margin:0;cursor:pointer;font:500 11px/1.2 inherit;color:#475467;border-radius:4px}.legend-item:hover{background:#f2f4f7}.legend-item.off{color:#98a2b3;text-decoration:line-through;opacity:.55}.legend-item.off::before{background:#d0d5dd}.legend-help{font-size:9.5px;color:#98a2b3;white-space:nowrap}.chart-empty{height:100%;display:flex;align-items:center;justify-content:center;color:#98a2b3;font-size:11.5px}
 .tariff-panel{overflow:hidden}.tariff-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}.tariff-head h2{padding:0;border:0}.table-scroll{width:100%;overflow:visible}
 .tariff-table,.detail-table{border-collapse:collapse;width:100%;min-width:0;table-layout:fixed;color:#344054;font-size:11px}
 .tariff-table th,.tariff-table td,.detail-table th,.detail-table td{border-right:1px solid #eaecf0;border-bottom:1px solid #eaecf0;text-align:right;white-space:nowrap;font-family:inherit;font-size:11px;color:#344054;font-weight:500;line-height:1.15}
@@ -54,7 +54,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
   .field{grid-template-columns:minmax(0,1fr) 118px;margin:6px 0}
   .content{gap:10px}
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi{padding:10px 12px}.kpi .value{font-size:18px}.kpi-help{font-size:10px}.heat-legend i{width:90px}
-  .grid2{grid-template-columns:1fr 1fr;gap:10px}
+  .grid2{grid-template-columns:1fr 1fr;gap:10px}.grid3{grid-template-columns:1fr 1fr;gap:10px}
   .chart{height:220px}
   .tariff-head{align-items:flex-start}.warning{margin:8px 12px 0!important}
   .tariff-desktop{display:none}.tariff-responsive{display:block;padding:8px 10px 11px}
@@ -68,7 +68,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 
 @media(max-width:820px){
   .controls{grid-template-columns:1fr}.controls>h2{grid-column:auto}.control-section{border-right:0}
-  .grid2{grid-template-columns:1fr}.chart{height:210px}
+  .grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.chart{height:210px}
   .tariff-hour-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.tariff-hour:nth-child(12n){border-right:1px solid #eaecf0}.tariff-hour:nth-child(6n){border-right:0}.tariff-hour:nth-last-child(-n+12){border-bottom:1px solid #eaecf0}.tariff-hour:nth-last-child(-n+6){border-bottom:0}
   .detail-responsive{grid-template-columns:1fr}.detail-mini th,.detail-mini td{height:18px}
   .data-note{grid-template-columns:1fr 1fr}
@@ -208,7 +208,7 @@ body{font-size:15.5px}
 .kpi .value{font-size:25px;line-height:1.15}
 .kpi .sub{font-size:13.5px;margin-top:6px}
 .kpi-help{font-size:12.5px;line-height:1.5;margin-top:8px;padding-top:8px}
-.grid2{grid-template-columns:1fr 1fr;gap:14px}
+.grid2{grid-template-columns:1fr 1fr;gap:14px}.grid3{grid-template-columns:1.15fr 1fr .95fr;gap:14px}
 .chart-wrap{padding:13px 15px 15px}
 .chart-title{font-size:15.5px;margin-bottom:7px}
 .chart-sub{font-size:13px}
@@ -442,12 +442,11 @@ body{font-size:15.5px}
     <div class="kpi"><div class="label">참여 고객당 연간 순요금 변화</div><div class="value" id="kpiPerCust">-</div><div class="sub">전력량요금만 반영</div><div class="kpi-help">참여고객 1호의 연간 순요금 변화. (+)는 고객 부담·한전 순수입 증가</div></div>
   </div>
 
-  <div class="grid2">
+  <div class="grid3">
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>대표일 전력 흐름</span><span class="chart-sub">고객 1호·ESS 보유비율 가중</span></div><div class="legend-row"><div class="legend interactive" id="energyLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="energyChart" class="chart"></div><div class="chart-footnote">신규 총수전은 한전→부하 직접수전과 한전→ESS 충전의 합계임.</div></div></div>
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>구매·판매단가</span><span class="chart-sub">원/kWh</span></div><div class="legend-row"><div class="legend interactive" id="priceLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="priceChart" class="chart"></div></div></div>
+    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>배터리 SOC 상태</span><span class="chart-sub">SOC(%) · 시간 종료 시점</span></div><div id="socLegend" class="legend soc-legend"></div><div id="socChart" class="chart"></div><div id="socSummary" class="chart-footnote"></div></div></div>
   </div>
-
-  <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>배터리 SOC 상태</span><span class="chart-sub">kWh/호 · 시간 종료 시점</span></div><div id="socLegend" class="legend soc-legend"></div><div id="socChart" class="chart"></div><div id="socSummary" class="chart-footnote"></div></div></div>
 
   <div class="panel flow-panel">
     <div class="flow-head"><div><h2>대표일 에너지 수지·한전 수전 구조</h2><div class="hint">ESS는 전력을 새로 만드는 설비가 아니라 시간대를 이동시키는 설비임. 한전 총수전이 고객부하로 직접 공급된 양과 ESS 충전에 사용된 양을 분리해 표시함.</div></div></div>
@@ -884,29 +883,30 @@ body{font-size:15.5px}
       summary.textContent='';
       return;
     }
-    const data=((r.new&&r.new.soc)||[]).slice(1,25);
-    const minSoc=cap*Math.max(0,+c.minSocPct||0)/100;
-    const maxSoc=cap*Math.max(0,+c.maxSocPct||0)/100;
-    const initSoc=cap*Math.max(0,+c.initialSocPct||0)/100;
+    const raw=((r.new&&r.new.soc)||[]).slice(1,25);
+    const data=raw.map(v=>cap>0? v/cap*100 : 0);
+    const minPct=Math.max(0,+c.minSocPct||0);
+    const maxPct=Math.max(0,+c.maxSocPct||0);
+    const initPct=Math.max(0,+c.initialSocPct||0);
     const obsMin=data.length?Math.min(...data):0, obsMax=data.length?Math.max(...data):0;
     legend.innerHTML=`<span style="--c:${colors.soc}">신규안 SOC</span><span style="--c:#98a2b3">운전가능 범위</span><span style="--c:#d0d5dd">초기 SOC</span>`;
     const W=Math.max(chart.clientWidth||650,500),H=280,m={l:46,r:16,t:16,b:34};
-    const ymin=0, ymax=Math.max(cap, maxSoc, obsMax, initSoc, 1);
+    const ymin=0, ymax=100;
     const plotW=W-m.l-m.r;
     const x=i=>m.l+(i+0.5)*plotW/24, xt=h=>m.l+h*plotW/24, y=v=>m.t+(ymax-v)*(H-m.t-m.b)/(ymax-ymin);
     let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%">`;
-    const bandTop=y(maxSoc), bandBottom=y(minSoc);
+    const bandTop=y(maxPct), bandBottom=y(minPct);
     s+=`<rect x="${m.l}" y="${bandTop}" width="${plotW}" height="${Math.max(0,bandBottom-bandTop)}" fill="rgba(152,162,179,0.12)" stroke="none"/>`;
     for(let j=0;j<=4;j++){const v=ymin+(ymax-ymin)*j/4,yy=y(v);s+=`<line x1="${m.l}" y1="${yy}" x2="${W-m.r}" y2="${yy}" stroke="#eaecf0"/><text x="${m.l-7}" y="${yy+4}" text-anchor="end" font-size="10" fill="#667085">${fmt1(v)}</text>`}
     [0,4,8,12,16,20,24].forEach(h=>s+=`<text x="${xt(h)}" y="${H-10}" text-anchor="${h===0?'start':h===24?'end':'middle'}" font-size="10" fill="#667085">${String(h).padStart(2,'0')}</text>`);
-    const refLines=[{v:minSoc,label:'최소 SOC',dash:'4 4',color:'#98a2b3'},{v:maxSoc,label:'최대 SOC',dash:'4 4',color:'#98a2b3'},{v:initSoc,label:'초기 SOC',dash:'2 4',color:'#d0d5dd'}];
+    const refLines=[{v:minPct,label:'최소 SOC',dash:'4 4',color:'#98a2b3'},{v:maxPct,label:'최대 SOC',dash:'4 4',color:'#98a2b3'},{v:initPct,label:'초기 SOC',dash:'2 4',color:'#d0d5dd'}];
     refLines.forEach((ref,idx)=>{const yy=y(ref.v);s+=`<line x1="${m.l}" y1="${yy}" x2="${W-m.r}" y2="${yy}" stroke="${ref.color}" stroke-dasharray="${ref.dash}"/>`; if(idx<2) s+=`<text x="${W-m.r-2}" y="${yy-4}" text-anchor="end" font-size="10" fill="#667085">${ref.label}</text>`;});
     const pts=data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
     s+=`<polyline points="${pts}" fill="none" stroke="${colors.soc}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`;
     data.forEach((v,i)=>{s+=`<circle cx="${x(i)}" cy="${y(v)}" r="2.4" fill="${colors.soc}"/>`;});
     s+='</svg>';
     chart.innerHTML=s;
-    summary.textContent=`ESS 정격용량 ${fmt1(cap)}kWh/호 · 운전가능 범위 ${fmt1(minSoc)}~${fmt1(maxSoc)}kWh/호 · 초기 SOC ${fmt1(initSoc)}kWh/호 · 대표일 실제 SOC 범위 ${fmt1(obsMin)}~${fmt1(obsMax)}kWh/호`;
+    summary.textContent=`정격용량 ${fmt1(cap)}kWh/호 · 운전가능 SOC 범위 ${fmt1(minPct)}~${fmt1(maxPct)}% · 초기 SOC ${fmt1(initPct)}% · 대표일 실제 SOC 범위 ${fmt1(obsMin)}~${fmt1(obsMax)}%`;
   }
   function priceLegend(items){
     currentPriceSeries=items;
