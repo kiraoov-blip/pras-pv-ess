@@ -328,6 +328,28 @@ body{font-size:15.5px}
   .hourly-choice-table th,.hourly-choice-table td{padding:9px 11px}
 }
 
+/* v1.3: clarify grid import and representative-day energy balance */
+.chart-footnote{margin-top:6px;color:#667085;font-size:12px;line-height:1.45}
+.flow-head{padding:15px 18px 5px}
+.flow-head h2{padding:0;margin:0 0 5px;font-size:18.5px}
+.flow-head .hint{font-size:13px;line-height:1.5}
+.flow-summary{margin:9px 18px 2px;padding:13px 15px;border:1px solid #d0d5dd;border-radius:10px;background:#f9fafb;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.flow-summary .flow-status{font-size:15px;font-weight:700;color:#344054}
+.flow-summary .flow-status strong{font-size:20px;margin-left:7px}
+.flow-summary .flow-explain{font-size:13px;color:#667085;line-height:1.5;text-align:right}
+.flow-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;padding:12px 18px 18px}
+.flow-card{border:1px solid #e4e7ec;border-radius:9px;padding:11px 12px;background:#fff;min-width:0}
+.flow-card b{display:block;font-size:13px;color:#475467;margin-bottom:6px}
+.flow-card strong{display:block;font-size:19px;line-height:1.2;color:#101828;font-variant-numeric:tabular-nums}
+.flow-card span{display:block;margin-top:5px;color:#667085;font-size:11.5px;line-height:1.4}
+.flow-card.grid-main{border-color:#b2ddff;background:#f5fbff}
+.flow-card.grid-ess{border-color:#fedf89;background:#fffcf5}
+.flow-card.grid-load{border-color:#abefc6;background:#f6fef9}
+.flow-card.warn{border-color:#fecdca;background:#fffafa}
+@media(max-width:1280px){.flow-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.flow-summary{display:block}.flow-summary .flow-explain{text-align:left;margin-top:7px}.flow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.flow-grid{grid-template-columns:1fr}.flow-summary .flow-status strong{display:block;margin:4px 0 0}}
+
 </style></head><body>
 <div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
@@ -378,8 +400,14 @@ body{font-size:15.5px}
   </div>
 
   <div class="grid2">
-    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>대표일 전력 흐름</span><span class="chart-sub">고객 1호·ESS 보유비율 가중</span></div><div class="legend-row"><div class="legend interactive" id="energyLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="energyChart" class="chart"></div></div></div>
+    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>대표일 전력 흐름</span><span class="chart-sub">고객 1호·ESS 보유비율 가중</span></div><div class="legend-row"><div class="legend interactive" id="energyLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="energyChart" class="chart"></div><div class="chart-footnote">신규 총수전은 한전→부하 직접수전과 한전→ESS 충전의 합계임.</div></div></div>
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>구매·판매단가</span><span class="chart-sub">원/kWh</span></div><div class="legend-row"><div class="legend interactive" id="priceLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="priceChart" class="chart"></div></div></div>
+  </div>
+
+  <div class="panel flow-panel">
+    <div class="flow-head"><div><h2>대표일 에너지 수지·한전 수전 구조</h2><div class="hint">ESS는 전력을 새로 만드는 설비가 아니라 시간대를 이동시키는 설비임. 한전 총수전이 고객부하로 직접 공급된 양과 ESS 충전에 사용된 양을 분리해 표시함.</div></div></div>
+    <div id="gridDependenceSummary" class="flow-summary"></div>
+    <div id="energyBalanceCards" class="flow-grid"></div>
   </div>
 
   <div class="panel tariff-panel">
@@ -410,7 +438,7 @@ body{font-size:15.5px}
 
   <div class="panel">
     <div class="tabs"><button class="tab active" data-tab="detail">시간대 상세</button><button class="tab" data-tab="assumption">데이터·가정</button></div>
-    <div id="detail" class="tab-content active"><div class="detail-unit-note">단위: 부하·PV·구매·판매·ESS 충방전 = kWh/호·1시간 · SOC = kWh/호(시간 종료 시점)</div><div class="table-scroll detail-desktop detail-scrollbox"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive detail-scrollbox"></div></div>
+    <div id="detail" class="tab-content active"><div class="detail-unit-note">단위: 부하·PV·수전·판매·ESS 충방전 = kWh/호·1시간 · SOC = kWh/호(시간 종료 시점) · 신규 총수전 = 한전→부하 + 한전→ESS</div><div class="table-scroll detail-desktop detail-scrollbox"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive detail-scrollbox"></div></div>
     <div id="assumption" class="tab-content"><div class="data-note" id="assumptionCards"></div></div>
   </div>
 </section></div></main>
@@ -687,7 +715,7 @@ body{font-size:15.5px}
   const $=id=>document.getElementById(id);
   const ids=['loadYear','customerCount','participationPct','loadScalePct','pvCapacityKW','pvUtilizationPct','essAdoptionPct','essCapacityKWh','essPowerKW','minSocPct','maxSocPct','initialSocPct','roundTripEfficiencyPct'];
   let tariffs=JSON.parse(JSON.stringify(D.tariffs));
-  const colors={load:'#344054',pv:'#f59e0b',baseImp:'#98a2b3',newImp:'#2f6fde',baseExp:'#a855f7',newExp:'#087a55',soc:'#b54708',baseBuy:'#667085',newBuy:'#2f6fde',baseSell:'#9e77ed',newSell:'#087a55'};
+  const colors={load:'#344054',pv:'#f59e0b',baseImp:'#98a2b3',newImp:'#2f6fde',gridLoad:'#0f766e',gridEss:'#d97706',baseExp:'#a855f7',newExp:'#087a55',soc:'#b54708',baseBuy:'#667085',newBuy:'#2f6fde',baseSell:'#9e77ed',newSell:'#087a55'};
   const hiddenEnergySeries=new Set();
   let currentEnergySeries=[];
   const hiddenPriceSeries=new Set();
@@ -794,6 +822,34 @@ body{font-size:15.5px}
   }
   function selectedHours(arr,threshold=0.05){return arr.map((v,i)=>v>threshold?i:-1).filter(i=>i>=0)}
   function avgAt(arr,hours){return hours.length?hours.reduce((s,h)=>s+(arr[h]||0),0)/hours.length:0}
+  function gridFlowSplit(out){
+    const total=(out.import||[]).map(v=>Math.max(0,v||0));
+    const toEss=total.map((v,i)=>Math.min(v,Math.max(0,out.gridCharge?.[i]||0)));
+    const toLoad=total.map((v,i)=>Math.max(0,v-toEss[i]));
+    return {total,toEss,toLoad,totalEnergy:total.reduce((a,b)=>a+b,0),toEssEnergy:toEss.reduce((a,b)=>a+b,0),toLoadEnergy:toLoad.reduce((a,b)=>a+b,0)};
+  }
+  function energyBalance(r){
+    const n=gridFlowSplit(r.new);
+    const load=r.load.reduce((a,b)=>a+b,0),pv=r.pv.reduce((a,b)=>a+b,0),exp=(r.new.export||[]).reduce((a,b)=>a+b,0);
+    const pvDirect=(r.new.pvDirect||[]).reduce((a,b)=>a+b,0),pvCharge=(r.new.pvCharge||[]).reduce((a,b)=>a+b,0),discharge=(r.new.discharge||[]).reduce((a,b)=>a+b,0);
+    const dependence=load>1e-9?n.totalEnergy/load*100:0;
+    return {load,pv,exp,pvDirect,pvCharge,discharge,grid:n,dependence};
+  }
+  function renderEnergyBalance(r){
+    const e=energyBalance(r),noGrid=e.grid.totalEnergy<0.05;
+    const status=noGrid?'대표일 한전 무수전 가능':'대표일 한전 무수전 불가';
+    const statusValue=noGrid?'수전 0.0 kWh/일':`수전 ${fmt1(e.grid.totalEnergy)} kWh/일 필요`;
+    $('gridDependenceSummary').innerHTML=`<div class="flow-status">${status}<strong>${statusValue}</strong></div><div class="flow-explain">한전 총수전/고객 총부하 = <b>${fmt1(e.dependence)}%</b> · ESS는 저장된 전력을 시간 이동하므로 정격용량을 PV 발전량에 단순 합산하지 않음.</div>`;
+    const cards=[
+      ['대표일 총부하',`${fmt1(e.load)} kWh/일`,'고객 1호의 하루 전력사용량',''],
+      ['태양광 발전',`${fmt1(e.pv)} kWh/일`,`총부하의 ${fmt1(e.load>0?e.pv/e.load*100:0)}% 수준`,''],
+      ['한전 총수전',`${fmt1(e.grid.totalEnergy)} kWh/일`,'직접 부하공급 + ESS 계통충전','grid-main'],
+      ['한전 → 부하',`${fmt1(e.grid.toLoadEnergy)} kWh/일`,'ESS 충전을 제외한 직접 수전','grid-load'],
+      ['한전 → ESS',`${fmt1(e.grid.toEssEnergy)} kWh/일`,'저가시간 등에 ESS를 충전한 계통전력','grid-ess'],
+      ['계통 판매',`${fmt1(e.exp)} kWh/일`,'PV·ESS에서 한전으로 역송된 전력',e.exp>0.05?'':'warn']
+    ];
+    $('energyBalanceCards').innerHTML=cards.map(([a,b,c,cls])=>`<div class="flow-card ${cls}"><b>${a}</b><strong>${b}</strong><span>${c}</span></div>`).join('');
+  }
   function renderPeriodSummary(r){
     if(!$('periodSummary')) return;
     const periods=['경','중','최'];
@@ -905,14 +961,16 @@ body{font-size:15.5px}
       <div class="behavior-card"><b>④ 실제 계통판매</b><p>${exportText}</p></div>`;
   }
   function detail(res){
-    let h='<thead><tr><th>시간</th><th>부하<br><small>kWh</small></th><th>PV<br><small>kWh</small></th><th>기준 구매<br><small>kWh</small></th><th>신규 구매<br><small>kWh</small></th><th>기준 판매<br><small>kWh</small></th><th>신규 판매<br><small>kWh</small></th><th>신규 ESS 충전<br><small>kWh</small></th><th>신규 ESS 방전<br><small>kWh</small></th><th>신규 SOC<br><small>kWh</small></th></tr></thead><tbody>';
-    for(let i=0;i<24;i++)h+=`<tr><td title="${hourInterval(i)}">${hourStart(i)}</td><td>${fmt1(res.load[i])}</td><td>${fmt1(res.pv[i])}</td><td>${fmt1(res.base.import[i])}</td><td>${fmt1(res.new.import[i])}</td><td>${fmt1(res.base.export[i])}</td><td>${fmt1(res.new.export[i])}</td><td>${fmt1(res.new.charge[i]||0)}</td><td>${fmt1(res.new.discharge[i]||0)}</td><td>${fmt1(res.new.soc[i+1]||0)}</td></tr>`;
+    const split=gridFlowSplit(res.new);
+    let h='<thead><tr><th>시간</th><th>부하<br><small>kWh</small></th><th>PV<br><small>kWh</small></th><th>기준 구매<br><small>kWh</small></th><th>신규 총수전<br><small>kWh</small></th><th>한전→부하<br><small>kWh</small></th><th>한전→ESS<br><small>kWh</small></th><th>기준 판매<br><small>kWh</small></th><th>신규 판매<br><small>kWh</small></th><th>신규 ESS 충전<br><small>kWh</small></th><th>신규 ESS 방전<br><small>kWh</small></th><th>신규 SOC<br><small>kWh</small></th></tr></thead><tbody>';
+    for(let i=0;i<24;i++)h+=`<tr><td title="${hourInterval(i)}">${hourStart(i)}</td><td>${fmt1(res.load[i])}</td><td>${fmt1(res.pv[i])}</td><td>${fmt1(res.base.import[i])}</td><td>${fmt1(split.total[i])}</td><td>${fmt1(split.toLoad[i])}</td><td>${fmt1(split.toEss[i])}</td><td>${fmt1(res.base.export[i])}</td><td>${fmt1(res.new.export[i])}</td><td>${fmt1(res.new.charge[i]||0)}</td><td>${fmt1(res.new.discharge[i]||0)}</td><td>${fmt1(res.new.soc[i+1]||0)}</td></tr>`;
     $('detailTable').innerHTML=h+'</tbody>';
 
     const groups=[
       {title:'부하·PV·기준 구매 (kWh/호·1시간)',cols:[['부하',i=>res.load[i]],['PV',i=>res.pv[i]],['기준 구매',i=>res.base.import[i]]]},
-      {title:'신규 구매·계통 판매 (kWh/호·1시간)',cols:[['신규 구매',i=>res.new.import[i]],['기준 판매',i=>res.base.export[i]],['신규 판매',i=>res.new.export[i]]]},
-      {title:'ESS 운전·SOC (충방전 kWh/호·1시간 · SOC kWh/호)',cols:[['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0],['SOC',i=>res.new.soc[i+1]||0]]}
+      {title:'신규 한전 수전 구조 (kWh/호·1시간)',cols:[['총수전',i=>split.total[i]],['한전→부하',i=>split.toLoad[i]],['한전→ESS',i=>split.toEss[i]]]},
+      {title:'계통 판매·ESS 운전 (kWh/호·1시간)',cols:[['신규 판매',i=>res.new.export[i]],['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0]]},
+      {title:'SOC (kWh/호 · 시간 종료 시점)',cols:[['SOC',i=>res.new.soc[i+1]||0]]}
     ];
     $('detailResponsive').innerHTML=groups.map(g=>{
       let t=`<table class="detail-mini"><caption>${g.title}</caption><thead><tr><th>시간</th>${g.cols.map(c=>`<th>${c[0]}</th>`).join('')}</tr></thead><tbody>`;
@@ -921,7 +979,7 @@ body{font-size:15.5px}
     }).join('');
   }
   function bars(d){const arr=[['구매단가 효과',d.buyPriceEffect],['판매단가 효과',d.sellPriceEffect],['충방전 행동효과',d.behaviorEffect],['총 재무영향',d.totalEffect]];const max=Math.max(...arr.map(x=>Math.abs(x[1])),1);$('decomp').innerHTML=arr.map(([n,v],i)=>{const w=Math.abs(v)/max*100;const bg=v>=0?'#12b76a':'#f04438';return `<div class="bar-row"><div class="bar-label">${n}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;left:${v>=0?50-w/2:50}%;background:${bg};opacity:${i===3?1:.78}"></div></div><div class="bar-value ${v>=0?'positive':'negative'}">${signedMoney(v)}</div></div>`}).join('')+'<div class="hint">(+): 한전 순 전력량요금 수입 증가, (–): 감소. 행동효과는 신규 단가 하에서 ESS 최적운전으로 물량이 변한 효과임.</div>'}
-  function energyCards(r){const p=r.perCustomer;const cards=[['연간 한전 구매량',`${fmt1(p.baseImport)} → ${fmt1(p.newImport)} kWh/호`],['연간 계통 판매량',`${fmt1(p.baseExport)} → ${fmt1(p.newExport)} kWh/호`],['PV 현장활용률',`${(p.basePvUtilization*100).toFixed(1)}% → ${(p.newPvUtilization*100).toFixed(1)}%`],['신규안 계통충전',`${fmt1(p.newGridCharge)} kWh/호·년`],['신규안 ESS 방전',`${fmt1(p.newBatteryDischarge)} kWh/호·년`],['실제 참여 고객수',`${fmt0(r.total.participants)}호`]];$('energyKpis').innerHTML=cards.map(([a,b])=>`<div class="note-card"><b>${a}</b><p>${b}</p></div>`).join('')}
+  function energyCards(r){const p=r.perCustomer;const split=gridFlowSplit(r.new);const cards=[['연간 한전 총수전',`${fmt1(p.baseImport)} → ${fmt1(p.newImport)} kWh/호`],['연간 직접수전(한전→부하)',`${fmt1(split.toLoadEnergy*365)} kWh/호·년`],['연간 계통충전(한전→ESS)',`${fmt1(split.toEssEnergy*365)} kWh/호·년`],['연간 계통 판매량',`${fmt1(p.baseExport)} → ${fmt1(p.newExport)} kWh/호`],['PV 현장활용률',`${(p.basePvUtilization*100).toFixed(1)}% → ${(p.newPvUtilization*100).toFixed(1)}%`],['신규안 ESS 방전',`${fmt1(p.newBatteryDischarge)} kWh/호·년`],['실제 참여 고객수',`${fmt0(r.total.participants)}호`]];$('energyKpis').innerHTML=cards.map(([a,b])=>`<div class="note-card"><b>${a}</b><p>${b}</p></div>`).join('')}
   function assumptions(){const m=D.metadata;$('assumptionCards').innerHTML=`<div class="note-card"><b>부하 데이터</b><p>${m.loadSource}</p></div><div class="note-card"><b>태양광 데이터</b><p>${m.pvSource}<br>89호 중 365일 완전자료 ${m.pvCompleteCustomers}호</p></div><div class="note-card"><b>태양광 발전 가정</b><p>대표일 발전량은 설비용량 × 24시간 × 발전 이용률로 산정. 기본값 3.0kW × 24 × 15.0% = 10.8kWh/일. 89호 관측 평균 발전량은 ${fmt1(m.pvObservedAvgDailyKWh)}kWh/일.</p></div><div class="note-card"><b>재무 범위</b><p>기본요금·연료비조정·기후환경요금·부가세·기금 제외. 구매 전력량요금 수입과 고객 역송전력 매입지급액만 반영.</p></div><div class="note-card"><b>ESS 운전</b><p>24시간 동적계획법으로 고객 순 전력량요금 최소화. 용량·출력·SOC·효율·계통충전·ESS 역송 제약 적용.</p></div><div class="note-card"><b>현 단계 한계</b><p>${m.note}</p></div>`}
   function run(){
     updatePvCalculated();
@@ -931,11 +989,12 @@ body{font-size:15.5px}
     const ks=$('kpiSales');ks.textContent=signedMoney(r.total.changeSalesRevenue);setSign(ks,r.total.changeSalesRevenue);$('kpiSalesSub').textContent=`기준 ${money(r.total.baseSalesRevenue)} → 신규 ${money(r.total.newSalesRevenue)}`;
     const kp=$('kpiPayout');kp.textContent=signedMoney(r.total.changePurchasePayout);setSign(kp,-r.total.changePurchasePayout);$('kpiPayoutSub').textContent=`기준 ${money(r.total.basePurchasePayout)} → 신규 ${money(r.total.newPurchasePayout)}`;
     const kc=$('kpiPerCust');kc.textContent=signedMoney(r.perCustomer.changeNetRevenue);setSign(kc,r.perCustomer.changeNetRevenue);
-    const energySeries=[{name:'부하',data:r.load,color:colors.load},{name:'PV',data:r.pv,color:colors.pv},{name:'기준 구매',data:r.base.import,color:colors.baseImp,dash:'5 4'},{name:'신규 구매',data:r.new.import,color:colors.newImp},{name:'신규 판매',data:r.new.export,color:colors.newExp}];
+    const split=gridFlowSplit(r.new);
+    const energySeries=[{name:'부하',data:r.load,color:colors.load},{name:'PV',data:r.pv,color:colors.pv},{name:'기준 구매',data:r.base.import,color:colors.baseImp,dash:'5 4'},{name:'신규 총수전',data:split.total,color:colors.newImp,width:2.5},{name:'한전→부하',data:split.toLoad,color:colors.gridLoad},{name:'한전→ESS',data:split.toEss,color:colors.gridEss,dash:'3 3'},{name:'신규 판매',data:r.new.export,color:colors.newExp}];
     energyLegend(energySeries);renderEnergyChart();
     const priceSeries=[{name:'기준 구매',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 구매',data:tariffs.newBuy,color:colors.newBuy},{name:'기준 판매',data:tariffs.baseSell,color:colors.baseSell,dash:'5 4'},{name:'신규 판매',data:tariffs.newSell,color:colors.newSell}];
     priceLegend(priceSeries);renderPriceChart();
-    bars(r.decomposition);energyCards(r);renderPeriodSummary(r);customerBehavior(r,c);renderHourlyChoice(r,c);detail(r);
+    renderEnergyBalance(r);bars(r.decomposition);energyCards(r);renderPeriodSummary(r);customerBehavior(r,c);renderHourlyChoice(r,c);detail(r);
   }
   $('recalc').addEventListener('click',run);
   ids.filter(id=>id!=='customerCount').forEach(id=>$(id).addEventListener('change',run));
