@@ -346,6 +346,21 @@ body{font-size:15.5px}
   .detail-mini th,.detail-mini td{font-size:10.6px;height:20px;padding:2px 3px}
 }
 
+
+/* v1.2 numeric typography: align output numerals with PRAS-HeatPump */
+.kpi .value,.kpi .sub,
+.bar-value,
+.note-card p,
+.period-metric strong,.period-metric em,
+.pv-calc b,
+.field input,
+.tariff-table input,
+.detail-table td,.detail-mini td{
+  font-family:Arial,'Noto Sans KR','Malgun Gothic',sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+.kpi .value{font-weight:800;letter-spacing:-.2px}
+.bar-value,.period-metric strong,.period-metric em{font-weight:700}
 </style></head><body>
 <div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
