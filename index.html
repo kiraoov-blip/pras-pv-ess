@@ -414,7 +414,7 @@ body{font-size:15.5px}
 @media(max-width:820px){.smp-summary{grid-template-columns:1fr}.smp-table{font-size:11.5px}.smp-table th,.smp-table td{padding:7px 6px}}
 
 </style></head><body>
-<div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
+<div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 수전·역송 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
 <aside class="panel controls top-controls">
   <div class="controls-head"><h2>분석 조건</h2><button class="btn primary" id="recalc">시뮬레이션 다시 계산</button></div>
@@ -458,15 +458,15 @@ body{font-size:15.5px}
 <section class="content">
   <div class="kpis">
     <div class="kpi"><div class="label">순 전력량요금 수입 변화</div><div class="value" id="kpiNet">-</div><div class="sub" id="kpiNetSub">-</div><div class="kpi-help">한전 판매수익 − 고객전력 매입지급액의 증감. (+)는 한전 순수입 증가</div></div>
-    <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div><div class="kpi-help">고객의 한전 구매량 × 구매단가로 산정한 한전 판매수익의 증감</div></div>
+    <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div><div class="kpi-help">고객의 한전 수전량 × 수전단가로 산정한 한전 판매수익의 증감</div></div>
     <div class="kpi"><div class="label">고객전력 매입지급액 변화</div><div class="value" id="kpiPayout">-</div><div class="sub" id="kpiPayoutSub">-</div><div class="kpi-help">신규요금에서 고객 역송전력에 대해 새로 발생하는 한전 지급액. 기준안은 역송 보상 없음</div></div>
     <div class="kpi"><div class="label">SMP 기반 구입비 영향</div><div class="value" id="kpiSmp">-</div><div class="sub" id="kpiSmpSub">-</div><div class="kpi-help">한전 순계통조달량(수전−역송) 변화 × 제주 SMP. (-)는 시장 구입비 절감</div></div>
-    <div class="kpi"><div class="label">참여고객당 신규안 연간 순 전력량 요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 구매요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
+    <div class="kpi"><div class="label">참여고객당 신규안 연간 순 전력량 요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 수전요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
   </div>
 
   <div class="grid3">
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>대표일 전력 흐름</span><span class="chart-sub">고객 1호·ESS 보유비율 가중</span></div><div class="legend-row"><div class="legend interactive" id="energyLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="energyChart" class="chart"></div><div class="chart-footnote">신규 총수전은 한전→부하 직접수전과 한전→ESS 충전의 합계임.</div></div></div>
-    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>구매·판매단가</span><span class="chart-sub">원/kWh</span></div><div class="legend-row"><div class="legend interactive" id="priceLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="priceChart" class="chart"></div></div></div>
+    <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>수전·역송단가</span><span class="chart-sub">원/kWh</span></div><div class="legend-row"><div class="legend interactive" id="priceLegend"></div><div class="legend-help">범례 클릭: 표시/숨김</div></div><div id="priceChart" class="chart"></div></div></div>
     <div class="panel"><div class="chart-wrap"><div class="chart-title"><span>배터리 SOC 상태</span><span class="chart-sub">SOC(%) · 시간 종료 시점</span></div><div id="socLegend" class="legend soc-legend"></div><div id="socChart" class="chart"></div><div id="socSummary" class="chart-footnote"></div></div></div>
   </div>
 
@@ -477,7 +477,7 @@ body{font-size:15.5px}
   </div>
 
   <div class="panel tariff-panel">
-    <div class="tariff-head"><div><h2>시간대별 요금 설정</h2><div class="hint">셀 직접 수정 가능 · 입력칸 하단의 경/중/최로 부하시간대 구분 · 구매단가는 값의 크기에 따라 색상 구분</div><div class="heat-legend"><span>낮음</span><i></i><span>높음</span><em>회색 → 노랑 → 빨강</em></div></div><div class="btn-row"><button class="btn" id="resetTariff">초기 설정값</button></div></div>
+    <div class="tariff-head"><div><h2>시간대별 요금 설정</h2><div class="hint">셀 직접 수정 가능 · 입력칸 하단의 경/중/최로 부하시간대 구분 · 수전단가는 값의 크기에 따라 색상 구분</div><div class="heat-legend"><span>낮음</span><i></i><span>높음</span><em>회색 → 노랑 → 빨강</em></div></div><div class="btn-row"><button class="btn" id="resetTariff">초기 설정값</button></div></div>
     <div class="warning" style="margin:12px 16px 0">기준안은 ESS 계통 역송을 허용하지 않으며 역송 보상단가는 적용하지 않음. 신규안에서만 ESS 역송을 허용하고 `260812_Flux 요금제 시뮬레이션_v6.xlsx`의 신규 역송단가를 적용함.</div>
     <div class="table-scroll tariff-desktop"><table class="tariff-table" id="tariffTable"></table></div><div id="tariffResponsive" class="tariff-responsive"></div>
   </div>
@@ -490,8 +490,8 @@ body{font-size:15.5px}
       <div class="inverse-field"><label>목표 기준</label><select id="inverseGoalBasis"><option value="change">기준 대비 순수입 변화</option><option value="newTotal">신규안 순수입 총액</option></select></div>
       <div class="inverse-field"><label>목표 금액(억원)</label><input id="inverseGoalValue" type="number" value="0.0" step="0.1"></div>
       <div class="inverse-field inverse-target-field"><label>조정 대상</label><select id="inverseTarget">
-        <optgroup label="구매단가"><option value="buy_low">경부하 구매단가</option><option value="buy_mid">중간부하 구매단가</option><option value="buy_peak">최대부하 구매단가</option><option value="buy_all">구매단가 전체</option><option value="buy_custom">특정 시간대 구매단가</option></optgroup>
-        <optgroup label="판매단가"><option value="sell_low">경부하 판매단가</option><option value="sell_mid">중간부하 판매단가</option><option value="sell_peak" selected>최대부하 판매단가</option><option value="sell_all">판매단가 전체</option><option value="sell_custom">특정 시간대 판매단가</option></optgroup>
+        <optgroup label="수전단가"><option value="buy_low">경부하 수전단가</option><option value="buy_mid">중간부하 수전단가</option><option value="buy_peak">최대부하 수전단가</option><option value="buy_all">수전단가 전체</option><option value="buy_custom">특정 시간대 수전단가</option></optgroup>
+        <optgroup label="역송단가"><option value="sell_low">경부하 역송단가</option><option value="sell_mid">중간부하 역송단가</option><option value="sell_peak" selected>최대부하 역송단가</option><option value="sell_all">역송단가 전체</option><option value="sell_custom">특정 시간대 역송단가</option></optgroup>
       </select></div>
       <div class="inverse-field"><label id="inverseMinLabel">탐색 최소단가(원/kWh)</label><input id="inverseMin" type="number" value="0" step="5"></div>
       <div class="inverse-field"><label id="inverseMaxLabel">탐색 최대단가(원/kWh)</label><input id="inverseMax" type="number" value="500" step="5"></div>
@@ -518,24 +518,24 @@ body{font-size:15.5px}
   </div>
 
   <div class="panel period-panel">
-    <div class="period-head"><div><h2>부하시간대별 사용량·요금 변화</h2><div class="hint">신규 요금제의 경·중·최 시간구분을 기준안에도 동일하게 적용 · 여기서 사용량은 고객 총부하가 아니라 한전 수전량이며, 요금은 구매요금에서 역송 판매대금을 차감한 순 전력량요금</div></div></div>
+    <div class="period-head"><div><h2>부하시간대별 사용량·요금 변화</h2><div class="hint">신규 요금제의 경·중·최 시간구분을 기준안에도 동일하게 적용 · 여기서 사용량은 고객 총부하가 아니라 한전 수전량이며, 요금은 수전요금에서 역송대금을 차감한 순 전력량요금</div></div></div>
     <div class="period-interpret-note">※ 한전 수전량이 0.0인 경우에도 고객 부하가 0이라는 뜻은 아님. 해당 시간대 부하가 태양광·ESS로 모두 충당되어 한전에서 직접 수전한 전력이 0에 가까운 상태를 의미함.</div>
     <div id="periodSummary" class="period-summary"></div>
   </div>
 
   <div class="panel behavior-panel">
-    <div class="behavior-head"><div><h2>현재 요금신호에 따른 합리적 고객 행동</h2><div class="hint">신규 구매·판매단가와 ESS 최적운전 결과를 함께 해석함. 요금 설정을 바꾸면 아래 내용도 자동 갱신됨.</div></div></div>
+    <div class="behavior-head"><div><h2>현재 요금신호에 따른 합리적 고객 행동</h2><div class="hint">신규 수전·역송단가와 ESS 최적운전 결과를 함께 해석함. 요금 설정을 바꾸면 아래 내용도 자동 갱신됨.</div></div></div>
     <div id="behaviorSummary" class="behavior-summary"></div>
     <div id="behaviorCards" class="behavior-grid"></div>
     <div class="hourly-choice-head"><div><h3>시간대별 행동 유불리</h3><div class="hint">PV·ESS의 운전 선택과 함께, 실제 고객 부하를 계통·PV·ESS 중 어떤 자원으로 공급하는 것이 선택되었는지 별도로 표시함.</div></div></div>
-    <div class="hourly-choice-note">`PV·ESS 운전 선택`은 충전·방전·판매 의사결정, `부하 공급 선택`은 실제 최적화 결과에서 고객 부하를 계통수전·PV·ESS 중 무엇으로 충당하는지를 의미함. 판매전환 관찰단가는 해당 시간의 판매단가만 변경해 ESS 계통판매가 의미 있게 나타나는 최소 수준을 탐색한 값임.</div>
+    <div class="hourly-choice-note">`PV·ESS 운전 선택`은 충전·방전·역송 의사결정, `부하 공급 선택`은 실제 최적화 결과에서 고객 부하를 계통수전·PV·ESS 중 무엇으로 충당하는지를 의미함. 역송전환 관찰단가는 해당 시간의 역송단가만 변경해 ESS 계통 역송이 의미 있게 나타나는 최소 수준을 탐색한 값임.</div>
     <div class="hourly-choice-scroll"><table class="hourly-choice-table" id="hourlyChoiceTable"></table></div>
     <div class="behavior-foot">※ 고객의 원래 부하곡선은 고정됨. `부하 공급 선택`은 수요 자체를 이동했다는 뜻이 아니라, 주어진 부하를 계통수전·PV·ESS 중 어떤 전원으로 충당했는지를 최적운전 결과에 따라 표시한 것임.</div>
   </div>
 
   <div class="panel">
     <div class="tabs"><button class="tab active" data-tab="detail">시간대 상세</button><button class="tab" data-tab="assumption">데이터·가정</button></div>
-    <div id="detail" class="tab-content active"><div class="detail-unit-note">단위: 부하·PV·수전·판매·ESS 충방전 = kWh/호·1시간 · SOC = kWh/호(시간 종료 시점) · 신규 총수전 = 한전→부하 + 한전→ESS</div><div class="table-scroll detail-desktop detail-scrollbox"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive detail-scrollbox"></div></div>
+    <div id="detail" class="tab-content active"><div class="detail-unit-note">단위: 부하·PV·수전·역송·ESS 충방전 = kWh/호·1시간 · SOC = kWh/호(시간 종료 시점) · 신규 총수전 = 한전→부하 + 한전→ESS</div><div class="table-scroll detail-desktop detail-scrollbox"><table class="detail-table" id="detailTable"></table></div><div id="detailResponsive" class="detail-responsive detail-scrollbox"></div></div>
     <div id="assumption" class="tab-content"><div class="data-note" id="assumptionCards"></div></div>
   </div>
 </section></div></main>
@@ -598,7 +598,7 @@ body{font-size:15.5px}
       defaultPvDailyKWh: 10.8,
       defaultPvCapacityKW: 3.0,
       defaultPvUtilizationPct: 15.0,
-      tariffSource: "260812_Flux 요금제 시뮬레이션_v6.xlsx / 기존·신규 구매단가 및 신규 역송단가 (기준안 역송 보상 없음)",
+      tariffSource: "260812_Flux 요금제 시뮬레이션_v6.xlsx / 기존·신규 수전단가 및 신규 역송단가 (기준안 역송 보상 없음)",
       note: "현 버전은 2025년 대표일(24시간 평균) 기반 연간화 모델. 2021~2024 및 8,760시간 직접 계산은 후속 버전 확장 대상."
     }
   };
@@ -860,7 +860,7 @@ body{font-size:15.5px}
   const hourEnd=i=>String(i+1).padStart(2,'0');
   function hourInterval(i){return `${hourStart(i)}~${hourEnd(i)}시`}
   function buildTariff(){
-    const rows=[['baseBuy','기준 구매단가'],['newBuy','신규 구매단가'],['newSell','신규 역송단가']];
+    const rows=[['baseBuy','기준 수전단가'],['newBuy','신규 수전단가'],['newSell','신규 역송단가']];
     let h='<thead><tr><th>구분</th>'+Array.from({length:24},(_,i)=>`<th title="${hourInterval(i)}">${hourStart(i)}</th>`).join('')+'</tr></thead><tbody>';
     rows.forEach(([k,n])=>{h+=`<tr><td>${n}</td>`+tariffs[k].map((v,i)=>{const heat=(k==='baseBuy'||k==='newBuy')?` style="background:${buyHeatColor(v)}"`:'';const period=periodFor(k,i);return `<td><div class="tariff-cell"><input type="number" step="0.1" data-tariff="${k}" data-h="${i}" value="${v.toFixed(1)}"${heat}><span class="period-tag ${periodClass(period)}">${period}</span></div></td>`}).join('')+'</tr>'});
     $('tariffTable').innerHTML=h+'</tbody>';
@@ -988,7 +988,7 @@ body{font-size:15.5px}
       ['한전 총수전',`${fmt1(e.grid.totalEnergy)} kWh/일`,'직접 부하공급 + ESS 계통충전','grid-main'],
       ['한전 → 부하',`${fmt1(e.grid.toLoadEnergy)} kWh/일`,'ESS 충전을 제외한 직접 수전','grid-load'],
       ['한전 → ESS',`${fmt1(e.grid.toEssEnergy)} kWh/일`,'저가시간 등에 ESS를 충전한 계통전력','grid-ess'],
-      ['계통 판매',`${fmt1(e.exp)} kWh/일`,'PV·ESS에서 한전으로 역송된 전력',e.exp>0.05?'':'warn']
+      ['계통 역송',`${fmt1(e.exp)} kWh/일`,'PV·ESS에서 한전으로 역송된 전력',e.exp>0.05?'':'warn']
     ];
     $('energyBalanceCards').innerHTML=cards.map(([a,b,c,cls])=>`<div class="flow-card ${cls}"><b>${a}</b><strong>${b}</strong><span>${c}</span></div>`).join('');
   }
@@ -1068,12 +1068,12 @@ body{font-size:15.5px}
     const el=$('hourlyChoiceTable'); if(!el) return;
     const n=r.new;
     const thresholds=Array.from({length:24},(_,h)=>saleSwitchThreshold(r,c,h));
-    let html='<thead><tr><th>시간</th><th>구매단가<br>(원/kWh)</th><th>판매단가<br>(원/kWh)</th><th>PV·ESS 운전 선택</th><th>부하 공급 선택<br>(kWh/호·1시간)</th><th>판매전환 관찰단가<br>(원/kWh)</th><th>현재 대비 조정</th></tr></thead><tbody>';
+    let html='<thead><tr><th>시간</th><th>수전단가<br>(원/kWh)</th><th>역송단가<br>(원/kWh)</th><th>PV·ESS 운전 선택</th><th>부하 공급 선택<br>(kWh/호·1시간)</th><th>역송전환 관찰단가<br>(원/kWh)</th><th>현재 대비 조정</th></tr></thead><tbody>';
     for(let h=0;h<24;h++){
       const residual=Math.max((r.load[h]||0)-(r.pv[h]||0),0);
       const battExport=batteryExportAt(n,h),dis=n.discharge?.[h]||0,charge=n.charge?.[h]||0,pvCharge=n.pvCharge?.[h]||0;
       let label='대기/직접사용',cls='wait';
-      if(battExport>0.10){label='계통판매 유리';cls='sell'}
+      if(battExport>0.10){label='계통 역송 유리';cls='sell'}
       else if(dis>0.05 && residual>0.05){label='ESS 자가소비 유리';cls='self'}
       else if(charge>0.05){label=pvCharge>0.05?'ESS 충전 유리':'계통충전 유리';cls='charge'}
       else if((r.pv[h]||0)>0.05){label='PV 직접사용';cls='direct'}
@@ -1082,7 +1082,7 @@ body{font-size:15.5px}
       if(th){
         thText=`약 ${fmt1(th.observed)} 이상`;
         const diff=th.observed-tariffs.newSell[h];
-        if(diff<=0.05){adj='현재 단가에서 판매 가능';adjCls='threshold-met'}
+        if(diff<=0.05){adj='현재 단가에서 역송 가능';adjCls='threshold-met'}
         else {adj=`+${fmt1(diff)}원`;adjCls='threshold-up'}
       }else if(!c.allowBatteryExport){thText='역송 미허용';adj='설정 변경 필요'}
       else if((+c.essAdoptionPct||0)<=0 || (+c.essCapacityKWh||0)<=0){thText='ESS 미적용';adj='–'}
@@ -1112,9 +1112,9 @@ body{font-size:15.5px}
 
     let summaryHtml='';
     if(!hasEss){
-      summaryHtml=`<p class="behavior-lead">현재 설정에서는 ESS가 적용되지 않아, 고객은 태양광을 우선 자가소비하고 남는 전력을 판매하는 방식으로 비용을 최소화함.</p>
+      summaryHtml=`<p class="behavior-lead">현재 설정에서는 ESS가 적용되지 않아, 고객은 태양광을 우선 자가소비하고 남는 전력을 역송하는 방식으로 비용을 최소화함.</p>
       <ul>
-        <li><b>태양광 발전 시:</b> 고객부하를 PV로 먼저 충당하여 한전 구매를 줄이는 것이 우선이며, 부하를 초과한 발전량만 계통판매 대상으로 남음.</li>
+        <li><b>태양광 발전 시:</b> 고객부하를 PV로 먼저 충당하여 한전 수전을 줄이는 것이 우선이며, 부하를 초과한 발전량만 계통 역송 대상으로 남음.</li>
         <li><b>PV 부족 시:</b> ESS가 없으므로 부족한 전력은 한전에서 직접 수전함.</li>
       </ul>`;
     }else{
@@ -1125,17 +1125,17 @@ body{font-size:15.5px}
       const lowRange=lowPeriodHours.length?hourRanges(lowPeriodHours):hourRanges(lowBuy);
       const peakRange=peakHours.length?hourRanges(peakHours):hourRanges(highBuy);
       const selfVsSell=peakBuy>peakSell
-        ? `최대부하 구간은 구매단가 ${fmt1(peakBuy)}원이 판매단가 ${fmt1(peakSell)}원보다 높아, 저장전력을 판매하는 것보다 <b>자가소비하여 한전 구매를 회피</b>하는 가치가 큼.`
-        : `최대부하 구간은 판매단가 ${fmt1(peakSell)}원이 구매단가 ${fmt1(peakBuy)}원 이상이므로, SOC와 부하 여건이 허용되면 <b>계통판매</b> 유인이 커질 수 있음.`;
-      summaryHtml=`<p class="behavior-lead">현재 가격신호에서 합리적 고객은 ‘싼 시간에 충전 → PV는 우선 활용·저장 → 비싼 시간에 방전 → 판매는 자가소비보다 유리할 때 선택’하는 방향으로 움직임.</p>
+        ? `최대부하 구간은 수전단가 ${fmt1(peakBuy)}원이 역송단가 ${fmt1(peakSell)}원보다 높아, 저장전력을 역송하는 것보다 <b>자가소비하여 한전 수전을 회피</b>하는 가치가 큼.`
+        : `최대부하 구간은 역송단가 ${fmt1(peakSell)}원이 수전단가 ${fmt1(peakBuy)}원 이상이므로, SOC와 부하 여건이 허용되면 <b>계통 역송</b> 유인이 커질 수 있음.`;
+      summaryHtml=`<p class="behavior-lead">현재 가격신호에서 합리적 고객은 ‘싼 시간에 충전 → PV는 우선 활용·저장 → 비싼 시간에 방전 → 역송은 자가소비보다 유리할 때 선택’하는 방향으로 움직임.</p>
       <ul>
-        <li><b>① 가격신호 판단:</b> 고객은 매 시간 ‘구매단가’, ‘판매단가’, PV 발전량, ESS SOC와 효율을 함께 비교하여 연간 순요금을 최소화하는 선택을 함.</li>
-        <li><b>② 저가시간 ${lowRange}:</b> 평균 구매단가 ${fmt1(lowPeriodBuy||minBuy)}원/kWh로 상대적으로 저렴함. 계통충전이 허용된 경우 현재 최적운전에서는 <b>${hourRanges(gridCharge)} 계통충전</b>이 선택되며, 이후 고가시간의 구매를 줄이기 위한 저장 행동으로 해석 가능함.</li>
-        <li><b>③ 태양광 발전시간 ${pvRange}:</b> PV는 먼저 현재 부하를 직접 충당하고, 잉여분은 판매단가와 향후 구매회피 가치를 비교해 ESS에 저장하거나 판매함. 현재 PV→ESS 충전은 <b>${hourRanges(pvCharge)}</b>에 나타남.</li>
-        <li><b>④ 고가시간 ${peakRange}:</b> ${selfVsSell} 실제 ESS 방전은 <b>${dischargeRange}</b>, 계통판매는 <b>${exportRange}</b>으로 계산됨.</li>
-        <li><b>⑤ 부하 공급 관점:</b> 각 시간의 고객부하는 ‘PV → ESS → 한전수전’ 중 비용이 가장 낮은 조합으로 충당됨. PV와 ESS로 부족한 부분만 한전에서 수전하므로, 한전 구매량이 0이어도 고객부하가 0이라는 의미는 아님.</li>
+        <li><b>① 가격신호 판단:</b> 고객은 매 시간 ‘수전단가’, ‘역송단가’, PV 발전량, ESS SOC와 효율을 함께 비교하여 연간 순요금을 최소화하는 선택을 함.</li>
+        <li><b>② 저가시간 ${lowRange}:</b> 평균 수전단가 ${fmt1(lowPeriodBuy||minBuy)}원/kWh로 상대적으로 저렴함. 계통충전이 허용된 경우 현재 최적운전에서는 <b>${hourRanges(gridCharge)} 계통충전</b>이 선택되며, 이후 고가시간의 수전을 줄이기 위한 저장 행동으로 해석 가능함.</li>
+        <li><b>③ 태양광 발전시간 ${pvRange}:</b> PV는 먼저 현재 부하를 직접 충당하고, 잉여분은 역송단가와 향후 수전회피 가치를 비교해 ESS에 저장하거나 역송함. 현재 PV→ESS 충전은 <b>${hourRanges(pvCharge)}</b>에 나타남.</li>
+        <li><b>④ 고가시간 ${peakRange}:</b> ${selfVsSell} 실제 ESS 방전은 <b>${dischargeRange}</b>, 계통 역송은 <b>${exportRange}</b>으로 계산됨.</li>
+        <li><b>⑤ 부하 공급 관점:</b> 각 시간의 고객부하는 ‘PV → ESS → 한전수전’ 중 비용이 가장 낮은 조합으로 충당됨. PV와 ESS로 부족한 부분만 한전에서 수전하므로, 한전 수전량이 0이어도 고객부하가 0이라는 의미는 아님.</li>
       </ul>
-      <div class="behavior-link">아래 ‘시간대별 행동 유불리’에서 <b>PV·ESS 운전 선택</b>은 충전·방전·판매 판단을, <b>부하 공급 선택</b>은 실제 부하를 PV·ESS·계통 중 무엇으로 충당했는지를 보여줌. ‘판매전환 관찰단가’는 현재 자가소비 우선 시간이 어느 판매단가부터 계통판매로 바뀌는지 확인하는 지표임.</div>`;
+      <div class="behavior-link">아래 ‘시간대별 행동 유불리’에서 <b>PV·ESS 운전 선택</b>은 충전·방전·역송 판단을, <b>부하 공급 선택</b>은 실제 부하를 PV·ESS·계통 중 무엇으로 충당했는지를 보여줌. ‘역송전환 관찰단가’는 현재 자가소비 우선 시간이 어느 역송단가부터 계통 역송으로 바뀌는지 확인하는 지표임.</div>`;
     }
     $('behaviorSummary').innerHTML=summaryHtml;
 
@@ -1143,28 +1143,28 @@ body{font-size:15.5px}
       ? `실제 최적화상 ${hourRanges(charge)}에 충전함. PV 잉여 충전은 ${hourRanges(pvCharge)}, 계통전력 충전은 ${hourRanges(gridCharge)}임.${!c.allowGridCharge?' 계통충전은 설정상 허용하지 않음.':''}`
       : '현재 가격차와 효율을 고려하면 추가 충전의 경제적 유인이 나타나지 않음.';
     let dischargeText=!hasEss?'ESS 미적용':discharge.length
-      ? `실제 최적화상 ${hourRanges(discharge)}에 방전함. 해당 시간의 평균 구매단가는 ${fmt1(buyAvoid)}원/kWh, 평균 판매단가는 ${fmt1(sellValue)}원/kWh임.`
+      ? `실제 최적화상 ${hourRanges(discharge)}에 방전함. 해당 시간의 평균 수전단가는 ${fmt1(buyAvoid)}원/kWh, 평균 역송단가는 ${fmt1(sellValue)}원/kWh임.`
       : '현재 조건에서는 ESS 방전이 선택되지 않음.';
-    if(discharge.length && buyAvoid>sellValue) dischargeText+=' 같은 전력을 계통에 파는 것보다 고객 구매를 줄이는 가치가 커 자가소비가 우선될 수 있음.';
+    if(discharge.length && buyAvoid>sellValue) dischargeText+=' 같은 전력을 계통에 파는 것보다 고객 수전을 줄이는 가치가 커 자가소비가 우선될 수 있음.';
     const exportText=exports.length
-      ? `실제 계통판매는 ${hourRanges(exports)}에 발생함. 신규 판매단가가 높은 구간은 ${hourRanges(highSell)}이며 최고 ${fmt1(maxSell)}원/kWh임.`
-      : `실제 최적화에서는 계통판매가 거의 발생하지 않음. 판매 최고단가는 ${fmt1(maxSell)}원/kWh이지만 구매회피 가치·ESS 효율·부하를 함께 고려한 결과임.`;
+      ? `실제 계통 역송은 ${hourRanges(exports)}에 발생함. 신규 역송단가가 높은 구간은 ${hourRanges(highSell)}이며 최고 ${fmt1(maxSell)}원/kWh임.`
+      : `실제 최적화에서는 계통 역송이 거의 발생하지 않음. 역송 최고단가는 ${fmt1(maxSell)}원/kWh이지만 수전회피 가치·ESS 효율·부하를 함께 고려한 결과임.`;
     $('behaviorCards').innerHTML=`
-      <div class="behavior-card"><b>① 저가시간의 선택</b><p>경부하 ${lowPeriodHours.length?hourRanges(lowPeriodHours):hourRanges(lowBuy)}의 평균 구매단가는 ${fmt1(lowPeriodBuy||minBuy)}원/kWh임. 가격이 낮을수록 즉시 사용뿐 아니라 ESS 충전을 통해 향후 고가시간 사용을 준비하는 선택이 유리해짐.</p></div>
-      <div class="behavior-card"><b>② 태양광 발전시간의 선택</b><p>태양광 발전은 먼저 부하를 직접 충당하고, 남는 전력은 즉시 판매와 ESS 저장의 가치를 비교함. ${chargeText}</p></div>
-      <div class="behavior-card"><b>③ 고가시간의 선택</b><p>${dischargeText}<br>최대부하 ${peakHours.length?hourRanges(peakHours):hourRanges(highBuy)}의 평균 구매/판매단가는 ${fmt1(peakBuy||maxBuy)} / ${fmt1(peakSell||maxSell)}원/kWh임.</p></div>
-      <div class="behavior-card"><b>④ 판매 여부의 선택</b><p>${exportText} 하단의 판매전환 관찰단가를 현재 판매단가와 비교하면, 어느 수준부터 자가소비보다 판매가 유리해지는지 시간대별로 확인할 수 있음.</p></div>`;
+      <div class="behavior-card"><b>① 저가시간의 선택</b><p>경부하 ${lowPeriodHours.length?hourRanges(lowPeriodHours):hourRanges(lowBuy)}의 평균 수전단가는 ${fmt1(lowPeriodBuy||minBuy)}원/kWh임. 가격이 낮을수록 즉시 사용뿐 아니라 ESS 충전을 통해 향후 고가시간 사용을 준비하는 선택이 유리해짐.</p></div>
+      <div class="behavior-card"><b>② 태양광 발전시간의 선택</b><p>태양광 발전은 먼저 부하를 직접 충당하고, 남는 전력은 즉시 역송과 ESS 저장의 가치를 비교함. ${chargeText}</p></div>
+      <div class="behavior-card"><b>③ 고가시간의 선택</b><p>${dischargeText}<br>최대부하 ${peakHours.length?hourRanges(peakHours):hourRanges(highBuy)}의 평균 수전/역송단가는 ${fmt1(peakBuy||maxBuy)} / ${fmt1(peakSell||maxSell)}원/kWh임.</p></div>
+      <div class="behavior-card"><b>④ 역송 여부의 선택</b><p>${exportText} 하단의 역송전환 관찰단가를 현재 역송단가와 비교하면, 어느 수준부터 자가소비보다 역송이 유리해지는지 시간대별로 확인할 수 있음.</p></div>`;
   }
   function detail(res){
     const split=gridFlowSplit(res.new);
-    let h='<thead><tr><th>시간</th><th>부하<br><small>kWh</small></th><th>PV<br><small>kWh</small></th><th>기준 구매<br><small>kWh</small></th><th>신규 총수전<br><small>kWh</small></th><th>한전→부하<br><small>kWh</small></th><th>한전→ESS<br><small>kWh</small></th><th>기준 역송<br><small>보상 없음·kWh</small></th><th>신규 판매<br><small>kWh</small></th><th>신규 ESS 충전<br><small>kWh</small></th><th>신규 ESS 방전<br><small>kWh</small></th><th>신규 SOC<br><small>kWh</small></th></tr></thead><tbody>';
+    let h='<thead><tr><th>시간</th><th>부하<br><small>kWh</small></th><th>PV<br><small>kWh</small></th><th>기준 수전<br><small>kWh</small></th><th>신규 총수전<br><small>kWh</small></th><th>한전→부하<br><small>kWh</small></th><th>한전→ESS<br><small>kWh</small></th><th>기준 역송<br><small>보상 없음·kWh</small></th><th>신규 역송<br><small>kWh</small></th><th>신규 ESS 충전<br><small>kWh</small></th><th>신규 ESS 방전<br><small>kWh</small></th><th>신규 SOC<br><small>kWh</small></th></tr></thead><tbody>';
     for(let i=0;i<24;i++)h+=`<tr><td title="${hourInterval(i)}">${hourStart(i)}</td><td>${fmt1(res.load[i])}</td><td>${fmt1(res.pv[i])}</td><td>${fmt1(res.base.import[i])}</td><td>${fmt1(split.total[i])}</td><td>${fmt1(split.toLoad[i])}</td><td>${fmt1(split.toEss[i])}</td><td>${fmt1(res.base.export[i])}</td><td>${fmt1(res.new.export[i])}</td><td>${fmt1(res.new.charge[i]||0)}</td><td>${fmt1(res.new.discharge[i]||0)}</td><td>${fmt1(res.new.soc[i+1]||0)}</td></tr>`;
     $('detailTable').innerHTML=h+'</tbody>';
 
     const groups=[
-      {title:'부하·PV·기준 구매 (kWh/호·1시간)',cols:[['부하',i=>res.load[i]],['PV',i=>res.pv[i]],['기준 구매',i=>res.base.import[i]]]},
+      {title:'부하·PV·기준 수전 (kWh/호·1시간)',cols:[['부하',i=>res.load[i]],['PV',i=>res.pv[i]],['기준 수전',i=>res.base.import[i]]]},
       {title:'신규 한전 수전 구조 (kWh/호·1시간)',cols:[['총수전',i=>split.total[i]],['한전→부하',i=>split.toLoad[i]],['한전→ESS',i=>split.toEss[i]]]},
-      {title:'계통 판매·ESS 운전 (kWh/호·1시간)',cols:[['신규 판매',i=>res.new.export[i]],['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0]]},
+      {title:'계통 역송·ESS 운전 (kWh/호·1시간)',cols:[['신규 역송',i=>res.new.export[i]],['ESS 충전',i=>res.new.charge[i]||0],['ESS 방전',i=>res.new.discharge[i]||0]]},
       {title:'SOC (kWh/호 · 시간 종료 시점)',cols:[['SOC',i=>res.new.soc[i+1]||0]]}
     ];
     $('detailResponsive').innerHTML=groups.map(g=>{
@@ -1173,8 +1173,8 @@ body{font-size:15.5px}
       return t+'</tbody></table>';
     }).join('');
   }
-  function bars(d){const arr=[['구매단가 효과',d.buyPriceEffect],['판매단가 효과',d.sellPriceEffect],['충방전 행동효과',d.behaviorEffect],['총 재무영향',d.totalEffect]];const max=Math.max(...arr.map(x=>Math.abs(x[1])),1);$('decomp').innerHTML=arr.map(([n,v],i)=>{const w=Math.abs(v)/max*100;const bg=v>=0?'#12b76a':'#f04438';return `<div class="bar-row"><div class="bar-label">${n}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;left:${v>=0?50-w/2:50}%;background:${bg};opacity:${i===3?1:.78}"></div></div><div class="bar-value ${v>=0?'positive':'negative'}">${signedMoney(v)}</div></div>`}).join('')+'<div class="hint">(+): 한전 순 전력량요금 수입 증가, (–): 감소. 행동효과는 신규 단가 하에서 ESS 최적운전으로 물량이 변한 효과임.</div>'}
-  function energyCards(r){const p=r.perCustomer;const split=gridFlowSplit(r.new);const cards=[['연간 한전 총수전',`${fmt1(p.baseImport)} → ${fmt1(p.newImport)} kWh/호`],['연간 직접수전(한전→부하)',`${fmt1(split.toLoadEnergy*365)} kWh/호·년`],['연간 계통충전(한전→ESS)',`${fmt1(split.toEssEnergy*365)} kWh/호·년`],['연간 계통 판매량',`${fmt1(p.baseExport)} → ${fmt1(p.newExport)} kWh/호`],['PV 현장활용률',`${(p.basePvUtilization*100).toFixed(1)}% → ${(p.newPvUtilization*100).toFixed(1)}%`],['신규안 ESS 방전',`${fmt1(p.newBatteryDischarge)} kWh/호·년`],['실제 참여 고객수',`${fmt0(r.total.participants)}호`]];$('energyKpis').innerHTML=cards.map(([a,b])=>`<div class="note-card"><b>${a}</b><p>${b}</p></div>`).join('')}
+  function bars(d){const arr=[['수전단가 효과',d.buyPriceEffect],['역송단가 효과',d.sellPriceEffect],['충방전 행동효과',d.behaviorEffect],['총 재무영향',d.totalEffect]];const max=Math.max(...arr.map(x=>Math.abs(x[1])),1);$('decomp').innerHTML=arr.map(([n,v],i)=>{const w=Math.abs(v)/max*100;const bg=v>=0?'#12b76a':'#f04438';return `<div class="bar-row"><div class="bar-label">${n}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;left:${v>=0?50-w/2:50}%;background:${bg};opacity:${i===3?1:.78}"></div></div><div class="bar-value ${v>=0?'positive':'negative'}">${signedMoney(v)}</div></div>`}).join('')+'<div class="hint">(+): 한전 순 전력량요금 수입 증가, (–): 감소. 행동효과는 신규 단가 하에서 ESS 최적운전으로 물량이 변한 효과임.</div>'}
+  function energyCards(r){const p=r.perCustomer;const split=gridFlowSplit(r.new);const cards=[['연간 한전 총수전',`${fmt1(p.baseImport)} → ${fmt1(p.newImport)} kWh/호`],['연간 직접수전(한전→부하)',`${fmt1(split.toLoadEnergy*365)} kWh/호·년`],['연간 계통충전(한전→ESS)',`${fmt1(split.toEssEnergy*365)} kWh/호·년`],['연간 계통 역송량',`${fmt1(p.baseExport)} → ${fmt1(p.newExport)} kWh/호`],['PV 현장활용률',`${(p.basePvUtilization*100).toFixed(1)}% → ${(p.newPvUtilization*100).toFixed(1)}%`],['신규안 ESS 방전',`${fmt1(p.newBatteryDischarge)} kWh/호·년`],['실제 참여 고객수',`${fmt0(r.total.participants)}호`]];$('energyKpis').innerHTML=cards.map(([a,b])=>`<div class="note-card"><b>${a}</b><p>${b}</p></div>`).join('')}
   function calcSmpImpact(r,c){
     const key=(c.smpYear&&SMP_HOURLY_AVG_BY_YEAR[c.smpYear])?c.smpYear:'2025';
     const smp=SMP_HOURLY_AVG_BY_YEAR[key];
@@ -1219,8 +1219,8 @@ body{font-size:15.5px}
   function assumptions(){const m=D.metadata;$('assumptionCards').innerHTML=`<div class="note-card"><b>부하 데이터</b><p>${m.loadSource}</p></div><div class="note-card"><b>태양광 데이터</b><p>${m.pvSource}<br>89호 중 365일 완전자료 ${m.pvCompleteCustomers}호</p></div><div class="note-card"><b>태양광 발전 가정</b><p>대표일 발전량은 설비용량 × 24시간 × 발전 이용률로 산정. 기본값 3.0kW × 24 × 15.0% = 10.8kWh/일. 89호 관측 평균 발전량은 ${fmt1(m.pvObservedAvgDailyKWh)}kWh/일.</p></div><div class="note-card"><b>재무 범위</b><p>기본요금·연료비조정·기후환경요금·부가세·기금 제외. 기준안은 역송 보상 없음으로 고객전력 매입지급액을 0원 처리하고, 신규안에서만 신규 역송단가에 따른 지급액을 반영.</p></div><div class="note-card"><b>ESS 운전</b><p>24시간 동적계획법으로 고객 순 전력량요금 최소화. 기준안은 ESS 계통 역송을 금지하고, 신규안에서만 화면의 ‘신규요금 ESS 역송 허용’ 설정에 따라 ESS 역송 가능. PV 잉여의 물리적 역송은 발생할 수 있으나 기준안에서는 보상하지 않음.</p></div><div class="note-card"><b>제주 SMP</b><p>기존 EV·HP 분석에 사용한 2022~2025년 제주 시간별 SMP 자료를 활용. 현재 PV/ESS는 대표일 모형이므로 선택연도의 시간별 SMP를 00~23시별 평균으로 변환해 대표일에 적용하고 365일 환산함.</p></div><div class="note-card"><b>현 단계 한계</b><p>${m.note}</p></div>`}
   let lastInverseSolution=null;
   const inverseLabels={
-    buy_low:'경부하 구매단가',buy_mid:'중간부하 구매단가',buy_peak:'최대부하 구매단가',buy_all:'구매단가 전체',buy_custom:'특정 시간대 구매단가',
-    sell_low:'경부하 판매단가',sell_mid:'중간부하 판매단가',sell_peak:'최대부하 판매단가',sell_all:'판매단가 전체',sell_custom:'특정 시간대 판매단가'
+    buy_low:'경부하 수전단가',buy_mid:'중간부하 수전단가',buy_peak:'최대부하 수전단가',buy_all:'수전단가 전체',buy_custom:'특정 시간대 수전단가',
+    sell_low:'경부하 역송단가',sell_mid:'중간부하 역송단가',sell_peak:'최대부하 역송단가',sell_all:'역송단가 전체',sell_custom:'특정 시간대 역송단가'
   };
   function inverseHours(target){
     if(target.endsWith('_all')) return Array.from({length:24},(_,i)=>i);
@@ -1256,8 +1256,8 @@ body{font-size:15.5px}
     if(!isDelta && +$('inverseMin').value===-200 && +$('inverseMax').value===300){$('inverseMin').value='0';$('inverseMax').value='500'}
     const hours=spec.hours.length?hourRanges(spec.hours):'없음';
     $('inverseMethodNote').textContent=isDelta
-      ? `${spec.label}: 현재 시간대별 가격차를 유지하면서 ${hours}의 모든 신규 ${spec.key==='newBuy'?'구매':'판매'}단가에 동일 금액을 가감하여 목표를 탐색함.`
-      : `${spec.label}: ${hours}의 신규 ${spec.key==='newBuy'?'구매':'판매'}단가를 하나의 동일 단가로 조정하고 나머지 시간대 단가는 현재값으로 고정하여 목표를 탐색함.`;
+      ? `${spec.label}: 현재 시간대별 가격차를 유지하면서 ${hours}의 모든 신규 ${spec.key==='newBuy'?'수전':'역송'}단가에 동일 금액을 가감하여 목표를 탐색함.`
+      : `${spec.label}: ${hours}의 신규 ${spec.key==='newBuy'?'수전':'역송'}단가를 하나의 동일 단가로 조정하고 나머지 시간대 단가는 현재값으로 고정하여 목표를 탐색함.`;
     lastInverseSolution=null;$('inverseApply').disabled=true;
   }
   function renderInverseResult(best,goal,basis,spec,reachable,minMetric,maxMetric){
@@ -1273,7 +1273,7 @@ body{font-size:15.5px}
       <div class="inverse-card primary"><b>${xLabel}</b><strong>${xValue}</strong><span>${spec.label} · ${hourRanges(spec.hours)}</span></div>
       <div class="inverse-card"><b>선택구간 단가</b><strong>${rangeText(beforeRates)} → ${rangeText(afterRates)}</strong><span>원/kWh · 다른 시간대는 고정</span></div>
       <div class="inverse-card ${cls}"><b>예상 ${goalLabel}</b><strong>${money(achieved)}</strong><span>목표 ${money(goal)} · 오차 ${signedMoney(err)}</span></div>
-      <div class="inverse-card"><b>예상 계통판매량</b><strong>${fmt1(r.perCustomer.newExport)} kWh/호·년</strong><span>현재 ${fmt1(window.lastResult?.perCustomer?.newExport||0)} kWh/호·년</span></div>
+      <div class="inverse-card"><b>예상 계통 역송량</b><strong>${fmt1(r.perCustomer.newExport)} kWh/호·년</strong><span>현재 ${fmt1(window.lastResult?.perCustomer?.newExport||0)} kWh/호·년</span></div>
       <div class="inverse-card"><b>예상 한전 총수전</b><strong>${fmt1(r.perCustomer.newImport)} kWh/호·년</strong><span>신규 요금 적용 후 고객 1호 기준</span></div>
     </div><div class="inverse-result-note">${reachable?'탐색 범위에서 목표 수준을 달성 가능한 것으로 확인됨.':'입력한 탐색 범위에서 목표값을 정확히 통과하지 않아 가장 가까운 근사값을 제시함.'} 고객 행동은 각 후보단가마다 ESS SOC·효율·충방전·역송 조건을 포함해 다시 최적화함. 1차 탐색에서 가능한 ${goalLabel} 범위는 약 ${money(minMetric)} ~ ${money(maxMetric)}임.</div>`;
   }
@@ -1326,9 +1326,9 @@ body{font-size:15.5px}
     const perCustChange=r.perCustomer.changeNetRevenue;
     $('kpiPerCustSub').innerHTML=`기준 ${money(r.perCustomer.baseNetRevenue)} → 신규 ${money(r.perCustomer.newNetRevenue)}<br>기준 대비 <span class="${perCustChange>0?'negative':perCustChange<0?'positive':''}">${signedMoney(perCustChange)}</span>`;
     const split=gridFlowSplit(r.new);
-    const energySeries=[{name:'부하',data:r.load,color:colors.load},{name:'PV',data:r.pv,color:colors.pv},{name:'기준 구매',data:r.base.import,color:colors.baseImp,dash:'5 4'},{name:'신규 총수전',data:split.total,color:colors.newImp,width:2.5},{name:'한전→부하',data:split.toLoad,color:colors.gridLoad},{name:'한전→ESS',data:split.toEss,color:colors.gridEss,dash:'3 3'},{name:'신규 판매',data:r.new.export,color:colors.newExp}];
+    const energySeries=[{name:'부하',data:r.load,color:colors.load},{name:'PV',data:r.pv,color:colors.pv},{name:'기준 수전',data:r.base.import,color:colors.baseImp,dash:'5 4'},{name:'신규 총수전',data:split.total,color:colors.newImp,width:2.5},{name:'한전→부하',data:split.toLoad,color:colors.gridLoad},{name:'한전→ESS',data:split.toEss,color:colors.gridEss,dash:'3 3'},{name:'신규 역송',data:r.new.export,color:colors.newExp}];
     energyLegend(energySeries);renderEnergyChart();
-    const priceSeries=[{name:'기준 구매',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 구매',data:tariffs.newBuy,color:colors.newBuy},{name:'신규 역송',data:tariffs.newSell,color:colors.newSell}];
+    const priceSeries=[{name:'기준 수전',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 수전',data:tariffs.newBuy,color:colors.newBuy},{name:'신규 역송',data:tariffs.newSell,color:colors.newSell}];
     priceLegend(priceSeries);renderPriceChart();
     renderSocChart(r,c);
     renderSmpImpact(smpImpact);
