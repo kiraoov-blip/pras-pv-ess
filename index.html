@@ -440,7 +440,7 @@ body{font-size:15.5px}
     <div class="kpi"><div class="label">순 전력량요금 수입 변화</div><div class="value" id="kpiNet">-</div><div class="sub" id="kpiNetSub">-</div><div class="kpi-help">한전 판매수익 − 고객전력 매입지급액의 증감. (+)는 한전 순수입 증가</div></div>
     <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div><div class="kpi-help">고객의 한전 구매량 × 구매단가로 산정한 한전 판매수익의 증감</div></div>
     <div class="kpi"><div class="label">고객전력 매입지급액 변화</div><div class="value" id="kpiPayout">-</div><div class="sub" id="kpiPayoutSub">-</div><div class="kpi-help">신규요금에서 고객 역송전력에 대해 새로 발생하는 한전 지급액. 기준안은 역송 보상 없음</div></div>
-    <div class="kpi"><div class="label">참여 고객당 연간 순요금 변화</div><div class="value" id="kpiPerCust">-</div><div class="sub">전력량요금만 반영</div><div class="kpi-help">참여고객 1호의 연간 순요금 변화. (+)는 고객 부담·한전 순수입 증가</div></div>
+    <div class="kpi"><div class="label">참여고객당 신규안 연간 순요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 구매요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
   </div>
 
   <div class="grid3">
@@ -1247,7 +1247,11 @@ body{font-size:15.5px}
     const kn=$('kpiNet');kn.textContent=signedMoney(r.total.changeNetRevenue);setSign(kn,r.total.changeNetRevenue);$('kpiNetSub').textContent=`기준 ${money(r.total.baseNetRevenue)} → 신규 ${money(r.total.newNetRevenue)}`;
     const ks=$('kpiSales');ks.textContent=signedMoney(r.total.changeSalesRevenue);setSign(ks,r.total.changeSalesRevenue);$('kpiSalesSub').textContent=`기준 ${money(r.total.baseSalesRevenue)} → 신규 ${money(r.total.newSalesRevenue)}`;
     const kp=$('kpiPayout');kp.textContent=signedMoney(r.total.changePurchasePayout);setSign(kp,-r.total.changePurchasePayout);$('kpiPayoutSub').textContent=`기준 ${money(r.total.basePurchasePayout)} → 신규 ${money(r.total.newPurchasePayout)}`;
-    const kc=$('kpiPerCust');kc.textContent=signedMoney(r.perCustomer.changeNetRevenue);setSign(kc,r.perCustomer.changeNetRevenue);
+    const kc=$('kpiPerCust');
+    kc.textContent=money(r.perCustomer.newNetRevenue);
+    kc.classList.remove('positive','negative');
+    const perCustChange=r.perCustomer.changeNetRevenue;
+    $('kpiPerCustSub').innerHTML=`기준 ${money(r.perCustomer.baseNetRevenue)} → 신규 ${money(r.perCustomer.newNetRevenue)}<br>기준 대비 <span class="${perCustChange>0?'negative':perCustChange<0?'positive':''}">${signedMoney(perCustChange)}</span>`;
     const split=gridFlowSplit(r.new);
     const energySeries=[{name:'부하',data:r.load,color:colors.load},{name:'PV',data:r.pv,color:colors.pv},{name:'기준 구매',data:r.base.import,color:colors.baseImp,dash:'5 4'},{name:'신규 총수전',data:split.total,color:colors.newImp,width:2.5},{name:'한전→부하',data:split.toLoad,color:colors.gridLoad},{name:'한전→ESS',data:split.toEss,color:colors.gridEss,dash:'3 3'},{name:'신규 판매',data:r.new.export,color:colors.newExp}];
     energyLegend(energySeries);renderEnergyChart();
