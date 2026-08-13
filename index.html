@@ -403,7 +403,7 @@ body{font-size:15.5px}
     <div class="control-section control-target"><div class="section-title">1. 분석 대상</div>
       <div class="section-fields target-fields">
         <div class="field"><label>부하 기준연도</label><select id="loadYear"><option value="2025">2025</option></select></div>
-        <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="text" inputmode="numeric" value="10,000" autocomplete="off"></div>
+        <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="text" inputmode="numeric" value="1,200" autocomplete="off"></div>
         <div class="field"><label>신규 요금 참여율(%)</label><input id="participationPct" type="number" value="100" min="0" max="100" step="1"></div>
         <div class="field"><label>부하 배율(%)</label><input id="loadScalePct" type="number" value="100" min="0" step="5"></div>
       </div>
@@ -425,7 +425,7 @@ body{font-size:15.5px}
         <div class="field"><label>왕복효율(%)</label><input id="roundTripEfficiencyPct" type="number" value="90" min="50" max="100" step="1"></div>
         <div class="field"><label>최소 SOC(%)</label><input id="minSocPct" type="number" value="10" min="0" max="100" step="5"></div>
         <div class="field"><label>최대 SOC(%)</label><input id="maxSocPct" type="number" value="90" min="0" max="100" step="5"></div>
-        <div class="field"><label>초기 SOC(%)</label><input id="initialSocPct" type="number" value="50" min="0" max="100" step="5"></div>
+        <div class="field"><label>초기 SOC(%)</label><input id="initialSocPct" type="number" value="10" min="0" max="100" step="5"></div>
       </div>
       <div class="ess-toggles">
         <div class="toggle"><span>계통전력 충전 허용</span><label class="switch"><input id="allowGridCharge" type="checkbox" checked><span class="slider"></span></label></div>
@@ -440,7 +440,7 @@ body{font-size:15.5px}
     <div class="kpi"><div class="label">순 전력량요금 수입 변화</div><div class="value" id="kpiNet">-</div><div class="sub" id="kpiNetSub">-</div><div class="kpi-help">한전 판매수익 − 고객전력 매입지급액의 증감. (+)는 한전 순수입 증가</div></div>
     <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div><div class="kpi-help">고객의 한전 구매량 × 구매단가로 산정한 한전 판매수익의 증감</div></div>
     <div class="kpi"><div class="label">고객전력 매입지급액 변화</div><div class="value" id="kpiPayout">-</div><div class="sub" id="kpiPayoutSub">-</div><div class="kpi-help">신규요금에서 고객 역송전력에 대해 새로 발생하는 한전 지급액. 기준안은 역송 보상 없음</div></div>
-    <div class="kpi"><div class="label">참여고객당 신규안 연간 순요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 구매요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
+    <div class="kpi"><div class="label">참여고객당 신규안 연간 순 전력량 요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 구매요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
   </div>
 
   <div class="grid3">
