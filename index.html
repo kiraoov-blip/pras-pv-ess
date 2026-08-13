@@ -24,7 +24,7 @@ main{max-width:1580px;margin:14px auto 28px;padding:0 18px}
 .kpi-help{font-size:10.5px;color:#98a2b3;line-height:1.35;margin-top:6px;padding-top:6px;border-top:1px solid #f2f4f7}
 .heat-legend{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:10px;color:#667085}.heat-legend i{display:block;width:120px;height:8px;border-radius:999px;background:linear-gradient(90deg,#f2f4f7 0%,#fef0c7 50%,#fecdca 100%);border:1px solid #eaecf0}.heat-legend em{font-style:normal;color:#98a2b3;margin-left:2px}
 .btn{border:1px solid #cbd5e1;background:#fff;border-radius:7px;padding:6px 9px;cursor:pointer;color:#344054;font-weight:600;font-size:12px}.btn:hover{background:#f8fafc}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.hint{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:6px}.warning{background:#fffaeb;border:1px solid #fedf89;color:#7a2e0e;padding:8px 9px;border-radius:8px;font-size:11.5px;line-height:1.4;margin-top:8px}
-.content{display:flex;flex-direction:column;gap:12px;min-width:0}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.kpi{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:0}.kpi .label{font-size:12px;color:var(--muted);margin-bottom:6px}.kpi .value{font-size:19px;font-weight:760;letter-spacing:-.3px}.kpi .sub{font-size:11.5px;color:var(--muted);margin-top:4px}.positive{color:var(--good)!important}.negative{color:var(--bad)!important}
+.content{display:flex;flex-direction:column;gap:12px;min-width:0}.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.kpi{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:0}.kpi .label{font-size:12px;color:var(--muted);margin-bottom:6px}.kpi .value{font-size:19px;font-weight:760;letter-spacing:-.3px}.kpi .sub{font-size:11.5px;color:var(--muted);margin-top:4px}.positive{color:var(--good)!important}.negative{color:var(--bad)!important}
 .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;min-width:0}.grid3{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:12px;min-width:0}.chart-wrap{padding:10px 12px 12px;min-width:0}.chart-title{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:6px}.chart-sub{font-size:11px;color:var(--muted);font-weight:400}.chart{width:100%;height:250px;border-top:1px solid #f2f4f7}.legend-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:25px}.legend{display:flex;gap:6px 9px;flex-wrap:wrap;font-size:11px;color:#475467;margin:5px 0}.legend span::before,.legend-item::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}.legend-item{appearance:none;border:0;background:transparent;padding:2px 3px;margin:0;cursor:pointer;font:500 11px/1.2 inherit;color:#475467;border-radius:4px}.legend-item:hover{background:#f2f4f7}.legend-item.off{color:#98a2b3;text-decoration:line-through;opacity:.55}.legend-item.off::before{background:#d0d5dd}.legend-help{font-size:9.5px;color:#98a2b3;white-space:nowrap}.chart-empty{height:100%;display:flex;align-items:center;justify-content:center;color:#98a2b3;font-size:11.5px}
 .tariff-panel{overflow:hidden}.tariff-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}.tariff-head h2{padding:0;border:0}.table-scroll{width:100%;overflow:visible}
 .tariff-table,.detail-table{border-collapse:collapse;width:100%;min-width:0;table-layout:fixed;color:#344054;font-size:11px}
@@ -394,6 +394,25 @@ body{font-size:15.5px}
 @media(max-width:820px){.inverse-controls{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px}.inverse-actions{grid-column:1/-1;justify-content:flex-start}.inverse-custom-range{grid-column:1/-1}.inverse-method-note,.inverse-result{margin-left:12px;margin-right:12px}.inverse-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.inverse-controls{grid-template-columns:1fr}.inverse-custom-range{grid-template-columns:1fr}.inverse-summary{grid-template-columns:1fr}.inverse-actions{flex-wrap:wrap}}
 
+/* v2.6: SMP-based wholesale procurement cost impact */
+.smp-impact-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px 2px}
+.smp-impact-head h2{padding-left:0;padding-right:0}
+.smp-impact-head .hint{font-size:13px;line-height:1.5;color:#667085;margin-top:-8px;margin-bottom:10px}
+.smp-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:4px 18px 12px}
+.smp-summary-card{border:1px solid #e4e7ec;border-radius:9px;background:#f9fafb;padding:11px 13px;min-width:0}
+.smp-summary-card .smp-label{font-size:12.5px;color:#667085;margin-bottom:5px}
+.smp-summary-card .smp-value{font-size:18px;font-weight:750;color:#101828;font-variant-numeric:tabular-nums}
+.smp-summary-card .smp-sub{font-size:11.5px;color:#667085;margin-top:4px;line-height:1.4}
+.smp-table{width:calc(100% - 36px);margin:0 18px 12px;border-collapse:collapse;table-layout:fixed;font-size:13px}
+.smp-table th,.smp-table td{padding:9px 10px;border:1px solid #eaecf0;font-variant-numeric:tabular-nums;vertical-align:middle}
+.smp-table th{background:#f9fafb;color:#475467;font-weight:700}
+.smp-table th:nth-child(1),.smp-table td:nth-child(1){width:20%;text-align:left}
+.smp-table th:nth-child(2),.smp-table td:nth-child(2){width:18%;text-align:right}
+.smp-table th:nth-child(3),.smp-table td:nth-child(3){width:22%;text-align:right}
+.smp-table th:nth-child(4),.smp-table td:nth-child(4){width:40%;text-align:left}
+.smp-note{margin:0 18px 15px;padding:9px 11px;border-radius:8px;background:#f9fafb;border:1px solid #e4e7ec;color:#667085;font-size:12px;line-height:1.5}
+@media(max-width:820px){.smp-summary{grid-template-columns:1fr}.smp-table{font-size:11.5px}.smp-table th,.smp-table td{padding:7px 6px}}
+
 </style></head><body>
 <div id="appRoot"><header><div class="header-inner"><div><h1>태양광·ESS 구매·판매 요금 재무영향 시뮬레이터(PRAS - PV/ESS)</h1><div class="subtitle">Pricing and Revenue Analysis Simulator - PV/ESS</div></div></div></header>
 <main><div class="layout">
@@ -406,6 +425,7 @@ body{font-size:15.5px}
         <div class="field"><label>분석 고객수(호)</label><input id="customerCount" type="text" inputmode="numeric" value="1,200" autocomplete="off"></div>
         <div class="field"><label>신규 요금 참여율(%)</label><input id="participationPct" type="number" value="100" min="0" max="100" step="1"></div>
         <div class="field"><label>부하 배율(%)</label><input id="loadScalePct" type="number" value="100" min="0" step="5"></div>
+        <div class="field"><label>SMP 기준연도</label><select id="smpYear"><option value="2025" selected>2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="avg">2022~2025 평균</option></select></div>
       </div>
     </div>
     <div class="control-section control-pv"><div class="section-title">2. 태양광</div>
@@ -439,6 +459,7 @@ body{font-size:15.5px}
   <div class="kpis">
     <div class="kpi"><div class="label">순 전력량요금 수입 변화</div><div class="value" id="kpiNet">-</div><div class="sub" id="kpiNetSub">-</div><div class="kpi-help">한전 판매수익 − 고객전력 매입지급액의 증감. (+)는 한전 순수입 증가</div></div>
     <div class="kpi"><div class="label">전력판매수익 변화</div><div class="value" id="kpiSales">-</div><div class="sub" id="kpiSalesSub">-</div><div class="kpi-help">고객의 한전 구매량 × 구매단가로 산정한 한전 판매수익의 증감</div></div>
+    <div class="kpi"><div class="label">SMP 기반 구입비 영향</div><div class="value" id="kpiSmp">-</div><div class="sub" id="kpiSmpSub">-</div><div class="kpi-help">한전 순계통조달량(수전−역송) 변화 × 제주 SMP. (-)는 시장 구입비 절감</div></div>
     <div class="kpi"><div class="label">고객전력 매입지급액 변화</div><div class="value" id="kpiPayout">-</div><div class="sub" id="kpiPayoutSub">-</div><div class="kpi-help">신규요금에서 고객 역송전력에 대해 새로 발생하는 한전 지급액. 기준안은 역송 보상 없음</div></div>
     <div class="kpi"><div class="label">참여고객당 신규안 연간 순 전력량 요금</div><div class="value" id="kpiPerCust">-</div><div class="sub" id="kpiPerCustSub">-</div><div class="kpi-help">신규 요금제 적용 후 고객 1호가 부담하는 연간 순 전력량요금. 한전 구매요금에서 신규 역송 보상액을 차감하며, 기준안 대비 증감은 아래에 함께 표시</div></div>
   </div>
@@ -487,6 +508,13 @@ body{font-size:15.5px}
   <div class="grid2">
     <div class="panel"><h2>재무영향 분해</h2><div class="decomp" id="decomp"></div></div>
     <div class="panel"><h2>주요 에너지 지표</h2><div class="data-note" id="energyKpis"></div></div>
+  </div>
+
+  <div class="panel smp-impact-panel">
+    <div class="smp-impact-head"><div><h2>SMP 기반 구입비 영향</h2><div class="hint">기존 제주 SMP 자료를 이용해 한전 수전 변화와 고객 역송 변화가 전력시장 구입비에 미치는 영향을 분리해 산정함.</div></div></div>
+    <div class="smp-summary" id="smpSummary"></div>
+    <div class="table-scroll"><table class="smp-table"><thead><tr><th>구분</th><th>전력량 변화</th><th>SMP 기반 구입비 영향</th><th>해석</th></tr></thead><tbody id="smpImpactBody"></tbody></table></div>
+    <div class="smp-note" id="smpNote"></div>
   </div>
 
   <div class="panel period-panel">
@@ -789,7 +817,9 @@ body{font-size:15.5px}
 (function(){
   const D=window.PRAS_DATA,E=window.PRASEngine;
   const $=id=>document.getElementById(id);
-  const ids=['loadYear','customerCount','participationPct','loadScalePct','pvCapacityKW','pvUtilizationPct','essAdoptionPct','essCapacityKWh','essPowerKW','minSocPct','maxSocPct','initialSocPct','roundTripEfficiencyPct'];
+  const SMP_HOURLY_AVG_BY_YEAR={"2022":[246.69611,234.266986,222.732466,216.183973,218.422603,225.311863,229.745808,238.729534,238.909671,234.811562,225.044986,216.567178,208.916904,218.28526,221.18874,236.892849,261.432192,276.468329,291.436685,306.925808,298.546849,288.38863,283.298548,267.312822],"2023":[167.299562,151.016849,141.820959,136.802877,138.040932,145.801644,156.511699,166.743863,179.763342,180.996247,179.790548,177.392575,167.846932,172.574986,176.024932,178.268411,183.73189,191.257726,202.758384,204.379288,193.152219,188.091589,182.511425,178.011342],"2024":[123.523415,108.903497,103.861557,100.176913,100.738443,105.629781,114.204508,126.475656,137.642486,142.999809,139.74276,135.172951,127.173607,133.239098,137.043005,140.369536,141.907842,145.321913,153.415219,151.068306,146.707923,139.560027,137.14235,133.057158],"2025":[105.993315,93.695753,90.227014,87.469041,88.495589,93.337644,100.436,110.666521,117.244466,122.176411,120.976959,108.590164,96.336411,103.405753,114.207452,120.671562,120.537205,123.462932,126.188521,126.398027,123.988795,119.324712,116.139233,112.104658],"avg":[160.852533,146.944716,139.635996,135.134257,136.399966,142.494983,150.199849,160.6305,168.368946,170.227358,166.370575,159.414114,150.052793,156.860096,162.098871,169.030958,176.87833,184.101164,193.4223,197.161287,190.568905,183.810931,179.74371,172.594415]};
+  const SMP_YEAR_LABEL={'2022':'2022년','2023':'2023년','2024':'2024년','2025':'2025년','avg':'2022~2025 평균'};
+  const ids=['loadYear','smpYear','customerCount','participationPct','loadScalePct','pvCapacityKW','pvUtilizationPct','essAdoptionPct','essCapacityKWh','essPowerKW','minSocPct','maxSocPct','initialSocPct','roundTripEfficiencyPct'];
   let tariffs=JSON.parse(JSON.stringify(D.tariffs));
   const colors={load:'#344054',pv:'#f59e0b',baseImp:'#98a2b3',newImp:'#2f6fde',gridLoad:'#0f766e',gridEss:'#d97706',baseExp:'#a855f7',newExp:'#087a55',soc:'#b54708',baseBuy:'#667085',newBuy:'#2f6fde',baseSell:'#9e77ed',newSell:'#087a55'};
   const hiddenEnergySeries=new Set();
@@ -816,7 +846,7 @@ body{font-size:15.5px}
     return `rgb(${rgb.join(',')})`;
   }
   function cfg(){return {
-    loadYear:$('loadYear').value,customerCount:parseInputNumber($('customerCount').value),participationPct:+$('participationPct').value,loadScalePct:+$('loadScalePct').value,
+    loadYear:$('loadYear').value,smpYear:$('smpYear').value,customerCount:parseInputNumber($('customerCount').value),participationPct:+$('participationPct').value,loadScalePct:+$('loadScalePct').value,
     pvCapacityKW:+$('pvCapacityKW').value,pvUtilizationPct:+$('pvUtilizationPct').value,essAdoptionPct:+$('essAdoptionPct').value,essCapacityKWh:+$('essCapacityKWh').value,
     essPowerKW:+$('essPowerKW').value,minSocPct:+$('minSocPct').value,maxSocPct:+$('maxSocPct').value,initialSocPct:+$('initialSocPct').value,
     roundTripEfficiencyPct:+$('roundTripEfficiencyPct').value,socStepKWh:0.2,allowGridCharge:$('allowGridCharge').checked,
@@ -1145,7 +1175,48 @@ body{font-size:15.5px}
   }
   function bars(d){const arr=[['구매단가 효과',d.buyPriceEffect],['판매단가 효과',d.sellPriceEffect],['충방전 행동효과',d.behaviorEffect],['총 재무영향',d.totalEffect]];const max=Math.max(...arr.map(x=>Math.abs(x[1])),1);$('decomp').innerHTML=arr.map(([n,v],i)=>{const w=Math.abs(v)/max*100;const bg=v>=0?'#12b76a':'#f04438';return `<div class="bar-row"><div class="bar-label">${n}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;left:${v>=0?50-w/2:50}%;background:${bg};opacity:${i===3?1:.78}"></div></div><div class="bar-value ${v>=0?'positive':'negative'}">${signedMoney(v)}</div></div>`}).join('')+'<div class="hint">(+): 한전 순 전력량요금 수입 증가, (–): 감소. 행동효과는 신규 단가 하에서 ESS 최적운전으로 물량이 변한 효과임.</div>'}
   function energyCards(r){const p=r.perCustomer;const split=gridFlowSplit(r.new);const cards=[['연간 한전 총수전',`${fmt1(p.baseImport)} → ${fmt1(p.newImport)} kWh/호`],['연간 직접수전(한전→부하)',`${fmt1(split.toLoadEnergy*365)} kWh/호·년`],['연간 계통충전(한전→ESS)',`${fmt1(split.toEssEnergy*365)} kWh/호·년`],['연간 계통 판매량',`${fmt1(p.baseExport)} → ${fmt1(p.newExport)} kWh/호`],['PV 현장활용률',`${(p.basePvUtilization*100).toFixed(1)}% → ${(p.newPvUtilization*100).toFixed(1)}%`],['신규안 ESS 방전',`${fmt1(p.newBatteryDischarge)} kWh/호·년`],['실제 참여 고객수',`${fmt0(r.total.participants)}호`]];$('energyKpis').innerHTML=cards.map(([a,b])=>`<div class="note-card"><b>${a}</b><p>${b}</p></div>`).join('')}
-  function assumptions(){const m=D.metadata;$('assumptionCards').innerHTML=`<div class="note-card"><b>부하 데이터</b><p>${m.loadSource}</p></div><div class="note-card"><b>태양광 데이터</b><p>${m.pvSource}<br>89호 중 365일 완전자료 ${m.pvCompleteCustomers}호</p></div><div class="note-card"><b>태양광 발전 가정</b><p>대표일 발전량은 설비용량 × 24시간 × 발전 이용률로 산정. 기본값 3.0kW × 24 × 15.0% = 10.8kWh/일. 89호 관측 평균 발전량은 ${fmt1(m.pvObservedAvgDailyKWh)}kWh/일.</p></div><div class="note-card"><b>재무 범위</b><p>기본요금·연료비조정·기후환경요금·부가세·기금 제외. 기준안은 역송 보상 없음으로 고객전력 매입지급액을 0원 처리하고, 신규안에서만 신규 역송단가에 따른 지급액을 반영.</p></div><div class="note-card"><b>ESS 운전</b><p>24시간 동적계획법으로 고객 순 전력량요금 최소화. 기준안은 ESS 계통 역송을 금지하고, 신규안에서만 화면의 ‘신규요금 ESS 역송 허용’ 설정에 따라 ESS 역송 가능. PV 잉여의 물리적 역송은 발생할 수 있으나 기준안에서는 보상하지 않음.</p></div><div class="note-card"><b>현 단계 한계</b><p>${m.note}</p></div>`}
+  function calcSmpImpact(r,c){
+    const key=(c.smpYear&&SMP_HOURLY_AVG_BY_YEAR[c.smpYear])?c.smpYear:'2025';
+    const smp=SMP_HOURLY_AVG_BY_YEAR[key];
+    const days=365,N=Math.max(0,+c.customerCount||0),pr=Math.max(0,Math.min(1,(+c.participationPct||0)/100)),participants=N*pr;
+    const sumArr=a=>a.reduce((x,y)=>x+(Number.isFinite(y)?y:0),0);
+    let baseDailyCost=0,newDailyCost=0,importEffectDay=0,exportEffectDay=0;
+    let baseNetDay=0,newNetDay=0,deltaImportDay=0,deltaExportDay=0;
+    for(let h=0;h<24;h++){
+      const bImp=r.base.import[h]||0,nImp=r.new.import[h]||0,bExp=r.base.export[h]||0,nExp=r.new.export[h]||0,p=smp[h]||0;
+      const bNet=bImp-bExp,nNet=nImp-nExp;
+      baseDailyCost+=bNet*p;newDailyCost+=nNet*p;baseNetDay+=bNet;newNetDay+=nNet;
+      const dImp=nImp-bImp,dExp=nExp-bExp;
+      deltaImportDay+=dImp;deltaExportDay+=dExp;
+      importEffectDay+=dImp*p;
+      exportEffectDay+=-dExp*p;
+    }
+    const baseCost=baseDailyCost*days*N;
+    const scenarioCost=baseDailyCost*days*(N-participants)+newDailyCost*days*participants;
+    const importEffect=importEffectDay*days*participants,exportEffect=exportEffectDay*days*participants;
+    const delta=importEffect+exportEffect;
+    const importDeltaKwh=deltaImportDay*days*participants,exportDeltaKwh=deltaExportDay*days*participants;
+    const netDeltaKwh=(deltaImportDay-deltaExportDay)*days*participants;
+    const baseNetKwh=baseNetDay*days*N,newNetKwh=baseNetDay*days*(N-participants)+newNetDay*days*participants;
+    return {key,label:SMP_YEAR_LABEL[key],smp,baseCost,scenarioCost,delta,importEffect,exportEffect,importDeltaKwh,exportDeltaKwh,netDeltaKwh,baseNetKwh,newNetKwh};
+  }
+  function signedKwh(x){return `${x>0?'+':''}${fmt1(x)} kWh`;}
+  function renderSmpImpact(s){
+    const sum=$('smpSummary'),body=$('smpImpactBody'),note=$('smpNote');if(!sum||!body||!note)return;
+    const clsCost=x=>x<0?'positive':x>0?'negative':'';
+    sum.innerHTML=`
+      <div class="smp-summary-card"><div class="smp-label">기준 SMP 기반 구입비</div><div class="smp-value">${money(s.baseCost)}</div><div class="smp-sub">순계통조달 ${fmt1(s.baseNetKwh)} kWh</div></div>
+      <div class="smp-summary-card"><div class="smp-label">신규 SMP 기반 구입비</div><div class="smp-value">${money(s.scenarioCost)}</div><div class="smp-sub">순계통조달 ${fmt1(s.newNetKwh)} kWh</div></div>
+      <div class="smp-summary-card"><div class="smp-label">순 SMP 기반 구입비 영향</div><div class="smp-value ${clsCost(s.delta)}">${signedMoney(s.delta)}</div><div class="smp-sub">(-)는 구입비 절감 · (+)는 증가</div></div>`;
+    const rows=[
+      ['한전 수전 변화',s.importDeltaKwh,s.importEffect,'신규안의 한전 수전량 변화 × 해당 시간대 제주 SMP'],
+      ['고객 역송 변화',s.exportDeltaKwh,s.exportEffect,'역송 증가분은 시장 구입 필요량을 줄이므로 구입비 절감으로 반영'],
+      ['순 계통조달 변화',s.netDeltaKwh,s.delta,'수전 변화 효과 + 역송 변화 효과']
+    ];
+    body.innerHTML=rows.map((r,i)=>`<tr><td><b>${r[0]}</b></td><td>${signedKwh(r[1])}</td><td class="${clsCost(r[2])}">${signedMoney(r[2])}</td><td>${r[3]}</td></tr>`).join('');
+    note.innerHTML=`<b>${s.label} 제주 SMP</b>의 실제 시간별 자료를 00~23시별 평균으로 변환해 현재 대표일 전력흐름에 적용하고 365일로 환산함. 핵심 산식은 <b>Σ[(신규 순계통조달량−기준 순계통조달량)×시간대별 SMP]</b>이며, 순계통조달량은 <b>한전 수전−고객 역송</b>으로 정의함. 이 비용효과는 상단의 순 전력량요금 수입과 별도 항목이며, SMP 자체가 고객 행동으로 변하는 효과는 반영하지 않음.`;
+  }
+  function assumptions(){const m=D.metadata;$('assumptionCards').innerHTML=`<div class="note-card"><b>부하 데이터</b><p>${m.loadSource}</p></div><div class="note-card"><b>태양광 데이터</b><p>${m.pvSource}<br>89호 중 365일 완전자료 ${m.pvCompleteCustomers}호</p></div><div class="note-card"><b>태양광 발전 가정</b><p>대표일 발전량은 설비용량 × 24시간 × 발전 이용률로 산정. 기본값 3.0kW × 24 × 15.0% = 10.8kWh/일. 89호 관측 평균 발전량은 ${fmt1(m.pvObservedAvgDailyKWh)}kWh/일.</p></div><div class="note-card"><b>재무 범위</b><p>기본요금·연료비조정·기후환경요금·부가세·기금 제외. 기준안은 역송 보상 없음으로 고객전력 매입지급액을 0원 처리하고, 신규안에서만 신규 역송단가에 따른 지급액을 반영.</p></div><div class="note-card"><b>ESS 운전</b><p>24시간 동적계획법으로 고객 순 전력량요금 최소화. 기준안은 ESS 계통 역송을 금지하고, 신규안에서만 화면의 ‘신규요금 ESS 역송 허용’ 설정에 따라 ESS 역송 가능. PV 잉여의 물리적 역송은 발생할 수 있으나 기준안에서는 보상하지 않음.</p></div><div class="note-card"><b>제주 SMP</b><p>기존 EV·HP 분석에 사용한 2022~2025년 제주 시간별 SMP 자료를 활용. 현재 PV/ESS는 대표일 모형이므로 선택연도의 시간별 SMP를 00~23시별 평균으로 변환해 대표일에 적용하고 365일 환산함.</p></div><div class="note-card"><b>현 단계 한계</b><p>${m.note}</p></div>`}
   let lastInverseSolution=null;
   const inverseLabels={
     buy_low:'경부하 구매단가',buy_mid:'중간부하 구매단가',buy_peak:'최대부하 구매단가',buy_all:'구매단가 전체',buy_custom:'특정 시간대 구매단가',
@@ -1246,6 +1317,8 @@ body{font-size:15.5px}
     const r=E.simulate(c,D);window.lastResult=r;
     const kn=$('kpiNet');kn.textContent=signedMoney(r.total.changeNetRevenue);setSign(kn,r.total.changeNetRevenue);$('kpiNetSub').textContent=`기준 ${money(r.total.baseNetRevenue)} → 신규 ${money(r.total.newNetRevenue)}`;
     const ks=$('kpiSales');ks.textContent=signedMoney(r.total.changeSalesRevenue);setSign(ks,r.total.changeSalesRevenue);$('kpiSalesSub').textContent=`기준 ${money(r.total.baseSalesRevenue)} → 신규 ${money(r.total.newSalesRevenue)}`;
+    const smpImpact=calcSmpImpact(r,c);
+    const ksm=$('kpiSmp');ksm.textContent=signedMoney(smpImpact.delta);setSign(ksm,-smpImpact.delta);$('kpiSmpSub').textContent=`${smpImpact.label} · 기준 ${money(smpImpact.baseCost)} → 신규 ${money(smpImpact.scenarioCost)}`;
     const kp=$('kpiPayout');kp.textContent=signedMoney(r.total.changePurchasePayout);setSign(kp,-r.total.changePurchasePayout);$('kpiPayoutSub').textContent=`기준 ${money(r.total.basePurchasePayout)} → 신규 ${money(r.total.newPurchasePayout)}`;
     const kc=$('kpiPerCust');
     kc.textContent=money(r.perCustomer.newNetRevenue);
@@ -1258,6 +1331,7 @@ body{font-size:15.5px}
     const priceSeries=[{name:'기준 구매',data:tariffs.baseBuy,color:colors.baseBuy},{name:'신규 구매',data:tariffs.newBuy,color:colors.newBuy},{name:'신규 역송',data:tariffs.newSell,color:colors.newSell}];
     priceLegend(priceSeries);renderPriceChart();
     renderSocChart(r,c);
+    renderSmpImpact(smpImpact);
     renderEnergyBalance(r);bars(r.decomposition);energyCards(r);renderPeriodSummary(r);customerBehavior(r,c);renderHourlyChoice(r,c);detail(r);
   }
   $('recalc').addEventListener('click',run);
