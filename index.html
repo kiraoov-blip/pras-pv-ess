@@ -236,7 +236,7 @@ body{font-size:15.5px}
 .period-metric em{font-size:12.5px;margin-top:4px}
 .behavior-head{padding:15px 18px 10px}
 .behavior-head .hint{font-size:13px}
-.behavior-summary{margin:13px 18px 0;padding:12px 14px;font-size:14px;line-height:1.55}
+.behavior-summary{margin:13px 18px 0;padding:12px 14px;font-size:14px;line-height:1.55}.behavior-summary ul{margin:0;padding-left:19px}.behavior-summary li{margin:6px 0;font-weight:500}.behavior-summary li::marker{color:#2f6fde}.behavior-summary b{font-weight:750;color:#1849a9}.behavior-summary .behavior-lead{margin:0 0 8px;font-weight:750}.behavior-summary .behavior-link{margin-top:9px;padding-top:8px;border-top:1px solid #c7d7fe;font-size:13px;font-weight:600}
 .behavior-grid{gap:12px;padding:14px 18px}
 .behavior-card{padding:13px 14px}
 .behavior-card b{font-size:13.5px}
@@ -1073,15 +1073,44 @@ body{font-size:15.5px}
     const charge=selectedHours(n.charge||[]),gridCharge=selectedHours(n.gridCharge||[]),pvCharge=selectedHours(n.pvCharge||[]),discharge=selectedHours(n.discharge||[]),exports=selectedHours(n.export||[]);
     const hasEss=(+c.essAdoptionPct||0)>0 && (+c.essCapacityKWh||0)>0;
     const buyAvoid=avgAt(buy,discharge),sellValue=avgAt(sell,discharge);
-    let summary='';
+    const pvHours=r.pv.map((v,i)=>v>0.05?i:-1).filter(i=>i>=0);
+    const peakHours=newPeriods.map((p,i)=>p==='최'?i:-1).filter(i=>i>=0);
+    const lowPeriodHours=newPeriods.map((p,i)=>p==='경'?i:-1).filter(i=>i>=0);
+    const midHours=newPeriods.map((p,i)=>p==='중'?i:-1).filter(i=>i>=0);
+    const avg=(arr,idx)=>idx.length?idx.reduce((s,i)=>s+arr[i],0)/idx.length:0;
+    const peakBuy=avg(buy,peakHours),peakSell=avg(sell,peakHours);
+    const lowPeriodBuy=avg(buy,lowPeriodHours),lowPeriodSell=avg(sell,lowPeriodHours);
+    const midBuy=avg(buy,midHours),midSell=avg(sell,midHours);
+
+    let summaryHtml='';
     if(!hasEss){
-      summary='현재 설정에서는 ESS 보유비율 또는 용량이 0이므로, 고객 행동은 태양광 즉시 자가소비와 잉여전력 판매 중심으로 나타남.';
+      summaryHtml=`<p class="behavior-lead">현재 설정에서는 ESS가 적용되지 않아, 고객은 태양광을 우선 자가소비하고 남는 전력을 판매하는 방식으로 비용을 최소화함.</p>
+      <ul>
+        <li><b>태양광 발전 시:</b> 고객부하를 PV로 먼저 충당하여 한전 구매를 줄이는 것이 우선이며, 부하를 초과한 발전량만 계통판매 대상으로 남음.</li>
+        <li><b>PV 부족 시:</b> ESS가 없으므로 부족한 전력은 한전에서 직접 수전함.</li>
+      </ul>`;
     }else{
-      const a=charge.length?`${hourRanges(charge)} 충전`:'추가 충전 없음';
-      const b=discharge.length?`${hourRanges(discharge)} 방전`:'방전 없음';
-      const d=exports.length?`${hourRanges(exports)} 계통판매`:'계통판매 거의 없음';
-      summary=`현재 단가와 ESS 조건에서는 ${a} → ${b} → ${d}의 선택이 비용 최소화에 유리한 것으로 계산됨.`;
+      const chargeRange=charge.length?hourRanges(charge):'없음';
+      const dischargeRange=discharge.length?hourRanges(discharge):'없음';
+      const exportRange=exports.length?hourRanges(exports):'거의 없음';
+      const pvRange=pvHours.length?hourRanges(pvHours):'없음';
+      const lowRange=lowPeriodHours.length?hourRanges(lowPeriodHours):hourRanges(lowBuy);
+      const peakRange=peakHours.length?hourRanges(peakHours):hourRanges(highBuy);
+      const selfVsSell=peakBuy>peakSell
+        ? `최대부하 구간은 구매단가 ${fmt1(peakBuy)}원이 판매단가 ${fmt1(peakSell)}원보다 높아, 저장전력을 판매하는 것보다 <b>자가소비하여 한전 구매를 회피</b>하는 가치가 큼.`
+        : `최대부하 구간은 판매단가 ${fmt1(peakSell)}원이 구매단가 ${fmt1(peakBuy)}원 이상이므로, SOC와 부하 여건이 허용되면 <b>계통판매</b> 유인이 커질 수 있음.`;
+      summaryHtml=`<p class="behavior-lead">현재 가격신호에서 합리적 고객은 ‘싼 시간에 충전 → PV는 우선 활용·저장 → 비싼 시간에 방전 → 판매는 자가소비보다 유리할 때 선택’하는 방향으로 움직임.</p>
+      <ul>
+        <li><b>① 가격신호 판단:</b> 고객은 매 시간 ‘구매단가’, ‘판매단가’, PV 발전량, ESS SOC와 효율을 함께 비교하여 연간 순요금을 최소화하는 선택을 함.</li>
+        <li><b>② 저가시간 ${lowRange}:</b> 평균 구매단가 ${fmt1(lowPeriodBuy||minBuy)}원/kWh로 상대적으로 저렴함. 계통충전이 허용된 경우 현재 최적운전에서는 <b>${hourRanges(gridCharge)} 계통충전</b>이 선택되며, 이후 고가시간의 구매를 줄이기 위한 저장 행동으로 해석 가능함.</li>
+        <li><b>③ 태양광 발전시간 ${pvRange}:</b> PV는 먼저 현재 부하를 직접 충당하고, 잉여분은 판매단가와 향후 구매회피 가치를 비교해 ESS에 저장하거나 판매함. 현재 PV→ESS 충전은 <b>${hourRanges(pvCharge)}</b>에 나타남.</li>
+        <li><b>④ 고가시간 ${peakRange}:</b> ${selfVsSell} 실제 ESS 방전은 <b>${dischargeRange}</b>, 계통판매는 <b>${exportRange}</b>으로 계산됨.</li>
+        <li><b>⑤ 부하 공급 관점:</b> 각 시간의 고객부하는 ‘PV → ESS → 한전수전’ 중 비용이 가장 낮은 조합으로 충당됨. PV와 ESS로 부족한 부분만 한전에서 수전하므로, 한전 구매량이 0이어도 고객부하가 0이라는 의미는 아님.</li>
+      </ul>
+      <div class="behavior-link">아래 ‘시간대별 행동 유불리’에서 <b>PV·ESS 운전 선택</b>은 충전·방전·판매 판단을, <b>부하 공급 선택</b>은 실제 부하를 PV·ESS·계통 중 무엇으로 충당했는지를 보여줌. ‘판매전환 관찰단가’는 현재 자가소비 우선 시간이 어느 판매단가부터 계통판매로 바뀌는지 확인하는 지표임.</div>`;
     }
+    $('behaviorSummary').innerHTML=summaryHtml;
+
     const chargeText=!hasEss?'ESS 미적용':charge.length
       ? `실제 최적화상 ${hourRanges(charge)}에 충전함. PV 잉여 충전은 ${hourRanges(pvCharge)}, 계통전력 충전은 ${hourRanges(gridCharge)}임.${!c.allowGridCharge?' 계통충전은 설정상 허용하지 않음.':''}`
       : '현재 가격차와 효율을 고려하면 추가 충전의 경제적 유인이 나타나지 않음.';
@@ -1092,12 +1121,11 @@ body{font-size:15.5px}
     const exportText=exports.length
       ? `실제 계통판매는 ${hourRanges(exports)}에 발생함. 신규 판매단가가 높은 구간은 ${hourRanges(highSell)}이며 최고 ${fmt1(maxSell)}원/kWh임.`
       : `실제 최적화에서는 계통판매가 거의 발생하지 않음. 판매 최고단가는 ${fmt1(maxSell)}원/kWh이지만 구매회피 가치·ESS 효율·부하를 함께 고려한 결과임.`;
-    $('behaviorSummary').textContent=summary;
     $('behaviorCards').innerHTML=`
-      <div class="behavior-card"><b>① 구매·충전 유리시간</b><p>신규 구매단가가 낮은 구간은 ${hourRanges(lowBuy)}이며 최저 ${fmt1(minBuy)}원/kWh임. 계통충전이 허용된 경우 ESS는 이 가격신호와 PV 잉여량을 함께 고려함.</p></div>
-      <div class="behavior-card"><b>② 실제 ESS 충전</b><p>${chargeText}</p></div>
-      <div class="behavior-card"><b>③ 실제 ESS 방전·자가소비</b><p>${dischargeText}<br>구매단가가 높은 구간: ${hourRanges(highBuy)} · 최고 ${fmt1(maxBuy)}원/kWh</p></div>
-      <div class="behavior-card"><b>④ 실제 계통판매</b><p>${exportText}</p></div>`;
+      <div class="behavior-card"><b>① 저가시간의 선택</b><p>경부하 ${lowPeriodHours.length?hourRanges(lowPeriodHours):hourRanges(lowBuy)}의 평균 구매단가는 ${fmt1(lowPeriodBuy||minBuy)}원/kWh임. 가격이 낮을수록 즉시 사용뿐 아니라 ESS 충전을 통해 향후 고가시간 사용을 준비하는 선택이 유리해짐.</p></div>
+      <div class="behavior-card"><b>② 태양광 발전시간의 선택</b><p>태양광 발전은 먼저 부하를 직접 충당하고, 남는 전력은 즉시 판매와 ESS 저장의 가치를 비교함. ${chargeText}</p></div>
+      <div class="behavior-card"><b>③ 고가시간의 선택</b><p>${dischargeText}<br>최대부하 ${peakHours.length?hourRanges(peakHours):hourRanges(highBuy)}의 평균 구매/판매단가는 ${fmt1(peakBuy||maxBuy)} / ${fmt1(peakSell||maxSell)}원/kWh임.</p></div>
+      <div class="behavior-card"><b>④ 판매 여부의 선택</b><p>${exportText} 하단의 판매전환 관찰단가를 현재 판매단가와 비교하면, 어느 수준부터 자가소비보다 판매가 유리해지는지 시간대별로 확인할 수 있음.</p></div>`;
   }
   function detail(res){
     const split=gridFlowSplit(res.new);
